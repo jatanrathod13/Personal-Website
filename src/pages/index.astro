@@ -1,15 +1,27 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { siteConfig, profileConfig } from '../config'
+import ProfileImage from '../components/ProfileImage.astro'
 ---
 
 <BaseLayout title={siteConfig.title}>
   <!-- Hero Section -->
   <section class="min-h-screen flex items-center justify-center py-20">
     <div class="container mx-auto px-4">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div class="max-w-md mx-auto">
+          <div class="relative">
+            <img
+              src="/profile.jpg"
+              alt={profileConfig.name}
+              class="relative rounded-2xl shadow-xl w-full h-full object-cover"
+            />
+          </div>
+        </div>
         <div class="space-y-6">
           <h1 class="text-5xl md:text-6xl font-bold leading-tight">
+            <span class="text-gray-900 dark:text-white">{profileConfig.name}</span>
+            <br />
             <span class="ai-gradient">Data Engineer</span>
             <br />
             & AI Technologist
@@ -31,14 +43,6 @@ import { siteConfig, profileConfig } from '../config'
               Learn More
             </a>
           </div>
-        </div>
-        <div class="relative">
-          <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl transform rotate-3"></div>
-          <img
-            src={profileConfig.avatar}
-            alt={profileConfig.name}
-            class="relative rounded-2xl shadow-xl"
-          />
         </div>
       </div>
     </div>

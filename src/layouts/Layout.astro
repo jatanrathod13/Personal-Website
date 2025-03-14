@@ -19,6 +19,7 @@ import { defaultFavicons } from '../constants/icon'
 import type { Favicon } from '../types/config'
 import { url, pathsEqual } from '../utils/url-utils'
 import 'katex/dist/katex.css'
+import ImageDebug from '../components/debug/ImageDebug.astro'
 
 interface Props {
   title?: string
@@ -47,11 +48,11 @@ banner = siteConfig.banner.src
 
 const enableBanner = siteConfig.banner.enable
 
-let pageTitle: string
+let layoutTitle: string
 if (title) {
-  pageTitle = `${title} - ${siteConfig.title}`
+  layoutTitle = `${title} - ${siteConfig.title}`
 } else {
-  pageTitle = `${siteConfig.title} - ${siteConfig.subtitle}`
+  layoutTitle = `${siteConfig.title} - ${siteConfig.subtitle}`
 }
 
 const favicons: Favicon[] =
@@ -78,16 +79,16 @@ const bannerOffset =
 >
 	<head>
 
-		<title>{pageTitle}</title>
+		<title>{layoutTitle}</title>
 
 		<meta charset="UTF-8" />
-		<meta name="description" content={description || pageTitle}>
+		<meta name="description" content={description || layoutTitle}>
 		<meta name="author" content={profileConfig.name}>
 
 		<meta property="og:site_name" content={siteConfig.title}>
 		<meta property="og:url" content={Astro.url}>
-		<meta property="og:title" content={pageTitle}>
-		<meta property="og:description" content={description || pageTitle}>
+		<meta property="og:title" content={layoutTitle}>
+		<meta property="og:description" content={description || layoutTitle}>
 		{setOGTypeArticle ? (
         <meta property="og:type" content="article" />
         ) : (
@@ -96,8 +97,8 @@ const bannerOffset =
 
 		<meta name="twitter:card" content="summary_large_image">
 		<meta property="twitter:url" content={Astro.url}>
-		<meta name="twitter:title" content={pageTitle}>
-		<meta name="twitter:description" content={description || pageTitle}>
+		<meta name="twitter:title" content={layoutTitle}>
+		<meta name="twitter:description" content={description || layoutTitle}>
 
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
@@ -147,6 +148,21 @@ const bannerOffset =
 
 		<link rel="alternate" type="application/rss+xml" title={profileConfig.name} href={`${Astro.site}rss.xml`}/>
 
+		<script is:inline>
+			// Global image error handler
+			document.addEventListener('DOMContentLoaded', () => {
+				const images = document.querySelectorAll('img');
+				images.forEach(img => {
+					img.addEventListener('error', function() {
+						if (!this.classList.contains('fallback-image')) {
+							this.src = 'https://picsum.photos/800/800';
+							this.classList.add('fallback-image');
+						}
+					});
+				});
+			});
+		</script>
+
 	</head>
 	<body class=" min-h-screen transition " class:list={[{"lg:is-home": isHomePage, "enable-banner": enableBanner}]}
 		  data-overlayscrollbars-initialize
@@ -156,6 +172,7 @@ const bannerOffset =
 
 		<!-- increase the page height during page transition to prevent the scrolling animation from jumping -->
 		<div id="page-height-extend" class="hidden h-[300vh]"></div>
+		{import.meta.env.DEV && <ImageDebug />}
 	</body>
 </html>
 
@@ -536,4 +553,13 @@ if (window.swup) {
 } else {
 	document.addEventListener("swup:enable", setup)
 }
+</script>
+
+<script is:inline>
+  // Global image error handler
+  window.addEventListener('error', function(e) {
+    if (e.target.tagName === 'IMG') {
+      e.target.src = 'https://picsum.photos/800/600';
+    }
+  }, true);
 </script>

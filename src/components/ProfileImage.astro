@@ -1,0 +1,23 @@
+---
+const profileImagePath = '/images/profile.jpg';
+---
+
+<div class="relative aspect-square rounded-xl overflow-hidden shadow-lg">
+    <img 
+        src={profileImagePath}
+        alt="Jatan Rathod"
+        class="w-full h-full object-cover transition-all duration-300"
+        style="opacity: 0"
+        onload="this.style.opacity = '1'"
+        onerror="this.onerror=null; this.src='https://picsum.photos/400/400'; this.style.opacity = '1'"
+    />
+</div>
+
+<style>
+img {
+    transform: scale(1.01);
+}
+img:hover {
+    transform: scale(1.05);
+}
+</style> 

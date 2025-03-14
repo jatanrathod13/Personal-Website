@@ -22,7 +22,7 @@ import svelte from '@astrojs/svelte';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://example.com',
+  site: 'https://jatanrathod.com',
   base: '/',
   output: 'static',
   devToolbar: {
@@ -32,7 +32,20 @@ export default defineConfig({
     tailwind(),
     mdx(),
     sitemap(),
-    svelte()
+    svelte(),
+    Compress({
+      css: true,
+      html: {
+        removeAttributeQuotes: false,
+      },
+      img: {
+        quality: 80,
+      },
+      js: true,
+      svg: {
+        multipass: true,
+      },
+    }),
   ],
   build: {
     format: 'directory'
@@ -90,21 +103,23 @@ export default defineConfig({
   },
   vite: {
     build: {
+      cssCodeSplit: true,
+      minify: 'terser',
       rollupOptions: {
-        onwarn(warning, warn) {
-          // temporarily suppress this warning
-          if (
-            warning.message.includes("is dynamically imported by") &&
-            warning.message.includes("but also statically imported by")
-          ) {
-            return;
-          }
-          warn(warning);
+        output: {
+          manualChunks: {
+            vendor: ['astro', 'astro-icon'],
+          },
         },
       },
     },
     ssr: {
-      noExternal: ['@iconify/svelte']
+      noExternal: ['astro-icon'],
     }
+  },
+  image: {
+    service: {
+      entrypoint: 'astro/assets/services/sharp',
+    },
   },
 });

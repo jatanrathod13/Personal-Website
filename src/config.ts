@@ -9,12 +9,19 @@ import { LinkPreset } from './types/config'
 export const siteConfig: SiteConfig = {
   title: 'Jatan Rathod',
   subtitle: 'Data Engineer & AI Technologist',
-  lang: 'en',         // 'en', 'zh_CN', 'zh_TW', 'ja', 'ko', 'es', 'th'
+  description: 'Personal website and portfolio of Jatan Rathod, showcasing projects and expertise in data engineering and AI.',
+  url: 'https://jatanrathod.com',
+  language: 'en',
   themeColor: '#3b82f6',
   banner: {
     enable: true,
-    text: '🚀 Welcome to my portfolio! I build scalable data pipelines and AI solutions.',
-    link: '/about'
+    src: '/images/banner.jpg',
+    position: 'center',
+    credit: {
+      enable: false,
+      text: '',
+      url: ''
+    }
   },
   toc: {
     enable: true,           // Display the table of contents on the right side of the post

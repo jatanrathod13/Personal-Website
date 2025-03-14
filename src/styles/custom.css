@@ -53,10 +53,19 @@
 /* Ensure images have a fallback color */
 img {
   background-color: #f3f4f6;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .dark img {
   background-color: #374151;
+}
+
+img.error {
+  object-fit: contain;
+  padding: 1rem;
 }
 
 /* Navbar styles */
@@ -113,4 +122,43 @@ img {
 .dark .footer {
   background-color: #111827;
   border-top: 1px solid #374151;
+}
+
+/* Add these styles to your custom CSS */
+img.fallback-image {
+  filter: none;
+  opacity: 1;
+}
+
+.image-container {
+  position: relative;
+  background: #f3f4f6;
+  overflow: hidden;
+}
+
+.dark .image-container {
+  background: #374151;
+}
+
+.profile-image-container {
+    background: #f3f4f6;
+    min-height: 12rem;
+    position: relative;
+}
+
+.dark .profile-image-container {
+    background: #374151;
+}
+
+.loading-placeholder {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .5;
+    }
 } 

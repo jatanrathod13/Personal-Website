@@ -3,31 +3,86 @@ import { siteConfig } from '../config'
 import Navbar from '../components/Navbar.astro'
 import Footer from '../components/Footer.astro'
 import '../styles/custom.css'
+import ErrorBoundary from '../components/ErrorBoundary.astro'
 
 interface Props {
   title: string
+  description?: string
+  image?: string
+  setOGTypeArticle?: boolean
 }
 
-const { title } = Astro.props
+const { 
+  title, 
+  description = siteConfig.description, 
+  image = (siteConfig.banner?.enable ? siteConfig.banner.src : siteConfig.profile?.avatar) || '/profile.jpg',
+  setOGTypeArticle = false
+} = Astro.props
+
+// Add safe defaults for when config properties aren't available
+const banner = siteConfig.banner || { enable: false, src: '', position: 'center', credit: { enable: false, text: '', url: '' } };
+const profile = siteConfig.profile || { avatar: '/profile.jpg', name: 'Jatan Rathod', bio: '', links: [] };
+const toc = siteConfig.toc || { enable: false };
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+const metaTitle = title || `${siteConfig.title} - ${siteConfig.subtitle}`
 ---
 
 <!DOCTYPE html>
-<html lang={siteConfig.lang}>
+<html lang={siteConfig.language} class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- SEO -->
+    <title>{metaTitle}</title>
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="title" content={metaTitle} />
+    <meta name="description" content={description} />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={setOGTypeArticle ? 'article' : 'website'} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={metaTitle} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL(image, Astro.site)} />
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href={siteConfig.profile.avatar} as="image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Global error handling -->
+    <script is:inline>
+      window.addEventListener('error', function(e) {
+        if (e.target.tagName === 'IMG') {
+          e.target.src = '/images/placeholder.jpg';
+          e.preventDefault();
+        }
+      }, true);
+    </script>
   </head>
-  <body class="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-    <Navbar />
-    <main class="pt-16">
-      <slot />
-    </main>
-    <Footer />
+  <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
+    <ErrorBoundary>
+      <Navbar />
+      
+      <main id="content">
+        <slot />
+      </main>
+      
+      <Footer />
+    </ErrorBoundary>
+    
+    <!-- Defer non-critical JavaScript -->
+    <script src="/js/app.js" defer></script>
   </body>
 </html> 

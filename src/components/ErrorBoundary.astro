@@ -1,0 +1,73 @@
+---
+interface Props {
+  fallback?: string;
+}
+
+const { fallback = "Something went wrong. Please try again later." } = Astro.props;
+---
+
+<div id="error-boundary">
+  <slot />
+</div>
+
+<template id="error-fallback">
+  <div class="error-container p-6 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+    <h3 class="text-lg font-medium text-red-800 dark:text-red-300">Error</h3>
+    <p class="mt-2 text-red-700 dark:text-red-400" id="error-message"></p>
+    <button 
+      class="mt-4 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md transition"
+      id="error-retry"
+    >
+      Try Again
+    </button>
+  </div>
+</template>
+
+<script define:vars={{ fallback }}>
+class ErrorBoundary extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+  }
+
+  connectedCallback() {
+    this.render();
+    window.addEventListener('error', this.handleError.bind(this));
+    window.addEventListener('unhandledrejection', this.handlePromiseError.bind(this));
+  }
+
+  render(error = null) {
+    if (!error) {
+      const slot = document.createElement('slot');
+      this.shadowRoot.appendChild(slot);
+      return;
+    }
+    
+    const template = document.getElementById('error-fallback');
+    const content = template.content.cloneNode(true);
+    
+    const errorMessage = content.getElementById('error-message');
+    errorMessage.textContent = error.message || fallback;
+    
+    const retryButton = content.getElementById('error-retry');
+    retryButton.addEventListener('click', () => {
+      window.location.reload();
+    });
+    
+    this.shadowRoot.innerHTML = '';
+    this.shadowRoot.appendChild(content);
+  }
+
+  handleError(event) {
+    this.render(event.error || { message: fallback });
+    event.preventDefault();
+  }
+
+  handlePromiseError(event) {
+    this.render(event.reason || { message: fallback });
+    event.preventDefault();
+  }
+}
+
+customElements.define('error-boundary', ErrorBoundary);
+</script> 
