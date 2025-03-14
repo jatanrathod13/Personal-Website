@@ -7,6 +7,18 @@
   display: inline-block;
 }
 
+/* Content spacing fix */
+#content {
+  padding-top: 4rem; /* Ensure content starts below the navbar */
+  min-height: calc(100vh - 4rem); /* Ensure content takes up at least the viewport height minus navbar */
+}
+
+/* Page section spacing */
+section {
+  position: relative;
+  z-index: 1;
+}
+
 /* Button styles */
 .btn {
   display: inline-flex;

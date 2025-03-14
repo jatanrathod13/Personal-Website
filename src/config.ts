@@ -84,11 +84,6 @@ export const siteConfig: SiteConfig = {
         external: false
       },
       {
-        name: 'Blog',
-        url: '/blog',
-        external: false
-      },
-      {
         name: 'About',
         url: '/about',
         external: false

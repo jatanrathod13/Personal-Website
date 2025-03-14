@@ -1,7 +1,7 @@
 ---
-import { siteConfig } from '../config'
-import Navbar from '../components/Navbar.astro'
 import Footer from '../components/Footer.astro'
+import Navbar from '../components/Navbar.astro'
+import { siteConfig } from '../config'
 import '../styles/custom.css'
 import ErrorBoundary from '../components/ErrorBoundary.astro'
 
@@ -12,24 +12,29 @@ interface Props {
   setOGTypeArticle?: boolean
 }
 
-const { 
-  title, 
-  description = siteConfig.description, 
-  image = (siteConfig.banner?.enable ? siteConfig.banner.src : siteConfig.profile?.avatar) || '/profile.jpg',
-  setOGTypeArticle = false
+const {
+  title,
+  description = siteConfig.subtitle || 'Personal website of Jatan Rathod',
+  image = '/profile.jpg',
+  setOGTypeArticle = false,
 } = Astro.props
 
 // Add safe defaults for when config properties aren't available
-const banner = siteConfig.banner || { enable: false, src: '', position: 'center', credit: { enable: false, text: '', url: '' } };
-const profile = siteConfig.profile || { avatar: '/profile.jpg', name: 'Jatan Rathod', bio: '', links: [] };
-const toc = siteConfig.toc || { enable: false };
+const banner = siteConfig.banner || { enable: false, text: '', link: '' }
+const profile = siteConfig.profile || {
+  avatar: '/profile.jpg',
+  name: 'Jatan Rathod',
+  bio: '',
+  links: [],
+}
+const toc = siteConfig.toc || { enable: false }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 const metaTitle = title || `${siteConfig.title} - ${siteConfig.subtitle}`
 ---
 
 <!DOCTYPE html>
-<html lang={siteConfig.language} class="scroll-smooth">
+<html lang={siteConfig.lang || "en"} class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -57,7 +62,7 @@ const metaTitle = title || `${siteConfig.title} - ${siteConfig.subtitle}`
     <meta property="twitter:image" content={new URL(image, Astro.site)} />
     
     <!-- Preload critical assets -->
-    <link rel="preload" href={siteConfig.profile.avatar} as="image" />
+    <link rel="preload" href="/profile.jpg" as="image" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     
@@ -65,7 +70,8 @@ const metaTitle = title || `${siteConfig.title} - ${siteConfig.subtitle}`
     <script is:inline>
       window.addEventListener('error', function(e) {
         if (e.target.tagName === 'IMG') {
-          e.target.src = '/images/placeholder.jpg';
+          e.target.src = 'https://picsum.photos/800/600';
+          e.target.classList.add('fallback-image');
           e.preventDefault();
         }
       }, true);
@@ -75,7 +81,7 @@ const metaTitle = title || `${siteConfig.title} - ${siteConfig.subtitle}`
     <ErrorBoundary>
       <Navbar />
       
-      <main id="content">
+      <main id="content" class="pt-16">
         <slot />
       </main>
       
@@ -84,5 +90,15 @@ const metaTitle = title || `${siteConfig.title} - ${siteConfig.subtitle}`
     
     <!-- Defer non-critical JavaScript -->
     <script src="/js/app.js" defer></script>
+    
+    <!-- Initialize theme from localStorage -->
+    <script is:inline>
+      const theme = localStorage.getItem('theme') || 'light';
+      if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    </script>
   </body>
 </html> 
