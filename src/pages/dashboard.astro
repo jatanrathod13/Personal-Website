@@ -1,0 +1,663 @@
+---
+import { siteConfig } from '../config'
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title={`Data Dashboard | ${siteConfig.title}`}>
+  <!-- Hero Section -->
+  <section class="py-20 bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">Interactive Data Dashboard</h1>
+        <p class="text-xl opacity-90">
+          Explore interactive visualizations showcasing my data engineering and analytics capabilities.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dashboard Introduction -->
+  <section class="py-12 bg-white dark:bg-gray-900">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="bg-blue-50 dark:bg-blue-900/30 p-6 rounded-lg mb-8">
+          <h2 class="text-2xl font-bold mb-4 text-blue-700 dark:text-blue-300">About This Dashboard</h2>
+          <p class="text-gray-700 dark:text-gray-300">
+            This interactive dashboard demonstrates my expertise in data visualization and analytics. The visualizations below are built using D3.js and showcase various aspects of data engineering workflows, ETL processes, and business intelligence insights.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ETL Pipeline Visualization -->
+  <section class="py-12 bg-gray-50 dark:bg-gray-800">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold mb-8 text-center">ETL Pipeline Workflow</h2>
+        <p class="text-center mb-8 text-gray-600 dark:text-gray-400">
+          An interactive visualization of a typical ETL (Extract, Transform, Load) pipeline that I've implemented.
+        </p>
+        
+        <div class="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg">
+          <div id="etl-pipeline-viz" class="w-full h-[400px] flex items-center justify-center">
+            <p class="text-gray-500 dark:text-gray-400">Loading visualization...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Data Processing Metrics -->
+  <section class="py-12 bg-white dark:bg-gray-900">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold mb-8 text-center">Data Processing Performance</h2>
+        <p class="text-center mb-8 text-gray-600 dark:text-gray-400">
+          Visualization of performance improvements achieved through data pipeline optimization.
+        </p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-bold mb-4 text-center">Processing Time Reduction</h3>
+            <div id="processing-time-viz" class="w-full h-[300px] flex items-center justify-center">
+              <p class="text-gray-500 dark:text-gray-400">Loading visualization...</p>
+            </div>
+          </div>
+          
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-bold mb-4 text-center">Dashboard Loading Time</h3>
+            <div id="dashboard-time-viz" class="w-full h-[300px] flex items-center justify-center">
+              <p class="text-gray-500 dark:text-gray-400">Loading visualization...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Data Volume Visualization -->
+  <section class="py-12 bg-gray-50 dark:bg-gray-800">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold mb-8 text-center">Data Volume Processing</h2>
+        <p class="text-center mb-8 text-gray-600 dark:text-gray-400">
+          Visualization of data volumes processed across different projects.
+        </p>
+        
+        <div class="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg">
+          <div id="data-volume-viz" class="w-full h-[400px] flex items-center justify-center">
+            <p class="text-gray-500 dark:text-gray-400">Loading visualization...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Radar Chart -->
+  <section class="py-12 bg-white dark:bg-gray-900">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold mb-8 text-center">Technical Skills Proficiency</h2>
+        <p class="text-center mb-8 text-gray-600 dark:text-gray-400">
+          A radar chart showing my proficiency in various technical skills.
+        </p>
+        
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+          <div id="skills-radar-viz" class="w-full h-[500px] flex items-center justify-center">
+            <p class="text-gray-500 dark:text-gray-400">Loading visualization...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
+
+  // Wait for the DOM to be fully loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    // ETL Pipeline Visualization
+    createEtlPipelineViz();
+    
+    // Processing Time Visualization
+    createProcessingTimeViz();
+    
+    // Dashboard Loading Time Visualization
+    createDashboardTimeViz();
+    
+    // Data Volume Visualization
+    createDataVolumeViz();
+    
+    // Skills Radar Chart
+    createSkillsRadarViz();
+  });
+
+  function createEtlPipelineViz() {
+    const container = document.getElementById('etl-pipeline-viz');
+    if (!container) return;
+    
+    // Clear loading message
+    container.innerHTML = '';
+    
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    
+    const svg = d3.select(container)
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
+      .attr('viewBox', `0 0 ${width} ${height}`)
+      .attr('style', 'max-width: 100%; height: auto;');
+    
+    // Define the nodes for the ETL pipeline
+    const nodes = [
+      { id: 'extract', label: 'Extract', x: width * 0.1, y: height / 2, radius: 50, color: '#3B82F6' },
+      { id: 'transform', label: 'Transform', x: width * 0.5, y: height / 2, radius: 50, color: '#8B5CF6' },
+      { id: 'load', label: 'Load', x: width * 0.9, y: height / 2, radius: 50, color: '#EC4899' }
+    ];
+    
+    // Define the links between nodes
+    const links = [
+      { source: 'extract', target: 'transform', label: 'Raw Data' },
+      { source: 'transform', target: 'load', label: 'Processed Data' }
+    ];
+    
+    // Create the nodes
+    const nodeElements = svg.selectAll('.node')
+      .data(nodes)
+      .enter()
+      .append('g')
+      .attr('class', 'node')
+      .attr('transform', d => `translate(${d.x}, ${d.y})`);
+    
+    // Add circles for nodes
+    nodeElements.append('circle')
+      .attr('r', d => d.radius)
+      .attr('fill', d => d.color)
+      .attr('opacity', 0.8);
+    
+    // Add labels to nodes
+    nodeElements.append('text')
+      .attr('text-anchor', 'middle')
+      .attr('dy', '0.3em')
+      .attr('fill', 'white')
+      .attr('font-weight', 'bold')
+      .text(d => d.label);
+    
+    // Create the links
+    const linkElements = svg.selectAll('.link')
+      .data(links)
+      .enter()
+      .append('g')
+      .attr('class', 'link');
+    
+    // Function to find node by id
+    const findNode = id => nodes.find(node => node.id === id);
+    
+    // Add paths for links
+    linkElements.append('path')
+      .attr('d', d => {
+        const source = findNode(d.source);
+        const target = findNode(d.target);
+        return `M${source.x + source.radius} ${source.y} L${target.x - target.radius} ${target.y}`;
+      })
+      .attr('stroke', '#64748B')
+      .attr('stroke-width', 3)
+      .attr('marker-end', 'url(#arrow)')
+      .attr('fill', 'none');
+    
+    // Add arrow marker
+    svg.append('defs').append('marker')
+      .attr('id', 'arrow')
+      .attr('viewBox', '0 -5 10 10')
+      .attr('refX', 8)
+      .attr('refY', 0)
+      .attr('markerWidth', 6)
+      .attr('markerHeight', 6)
+      .attr('orient', 'auto')
+      .append('path')
+      .attr('d', 'M0,-5L10,0L0,5')
+      .attr('fill', '#64748B');
+    
+    // Add labels to links
+    linkElements.append('text')
+      .attr('text-anchor', 'middle')
+      .attr('dy', -10)
+      .attr('fill', '#64748B')
+      .attr('font-size', '12px')
+      .attr('x', d => {
+        const source = findNode(d.source);
+        const target = findNode(d.target);
+        return (source.x + source.radius + target.x - target.radius) / 2;
+      })
+      .attr('y', d => {
+        const source = findNode(d.source);
+        return source.y;
+      })
+      .text(d => d.label);
+  }
+
+  function createProcessingTimeViz() {
+    const container = document.getElementById('processing-time-viz');
+    if (!container) return;
+    
+    // Clear loading message
+    container.innerHTML = '';
+    
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    const margin = { top: 40, right: 30, bottom: 60, left: 60 };
+    
+    const svg = d3.select(container)
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
+      .attr('viewBox', `0 0 ${width} ${height}`)
+      .attr('style', 'max-width: 100%; height: auto;');
+    
+    // Sample data
+    const data = [
+      { stage: 'Before Optimization', time: 100 },
+      { stage: 'After Optimization', time: 70 }
+    ];
+    
+    // Set up scales
+    const x = d3.scaleBand()
+      .domain(data.map(d => d.stage))
+      .range([margin.left, width - margin.right])
+      .padding(0.3);
+    
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(data, d => d.time) * 1.2])
+      .range([height - margin.bottom, margin.top]);
+    
+    // Add bars
+    svg.selectAll('.bar')
+      .data(data)
+      .enter()
+      .append('rect')
+      .attr('class', 'bar')
+      .attr('x', d => x(d.stage))
+      .attr('y', d => y(d.time))
+      .attr('width', x.bandwidth())
+      .attr('height', d => height - margin.bottom - y(d.time))
+      .attr('fill', (d, i) => i === 0 ? '#F87171' : '#4ADE80');
+    
+    // Add value labels
+    svg.selectAll('.label')
+      .data(data)
+      .enter()
+      .append('text')
+      .attr('class', 'label')
+      .attr('x', d => x(d.stage) + x.bandwidth() / 2)
+      .attr('y', d => y(d.time) - 10)
+      .attr('text-anchor', 'middle')
+      .attr('fill', '#4B5563')
+      .text(d => `${d.time} min`);
+    
+    // Add axes
+    svg.append('g')
+      .attr('transform', `translate(0,${height - margin.bottom})`)
+      .call(d3.axisBottom(x))
+      .selectAll('text')
+      .attr('font-size', '12px');
+    
+    svg.append('g')
+      .attr('transform', `translate(${margin.left},0)`)
+      .call(d3.axisLeft(y).ticks(5))
+      .selectAll('text')
+      .attr('font-size', '12px');
+    
+    // Add y-axis label
+    svg.append('text')
+      .attr('transform', 'rotate(-90)')
+      .attr('x', -(height / 2))
+      .attr('y', 20)
+      .attr('text-anchor', 'middle')
+      .attr('fill', '#4B5563')
+      .attr('font-size', '12px')
+      .text('Processing Time (minutes)');
+    
+    // Add improvement percentage
+    const improvement = ((data[0].time - data[1].time) / data[0].time * 100).toFixed(0);
+    
+    svg.append('text')
+      .attr('x', width / 2)
+      .attr('y', height - 10)
+      .attr('text-anchor', 'middle')
+      .attr('fill', '#4B5563')
+      .attr('font-size', '14px')
+      .attr('font-weight', 'bold')
+      .text(`${improvement}% Improvement`);
+  }
+
+  function createDashboardTimeViz() {
+    const container = document.getElementById('dashboard-time-viz');
+    if (!container) return;
+    
+    // Clear loading message
+    container.innerHTML = '';
+    
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    const margin = { top: 40, right: 30, bottom: 60, left: 60 };
+    
+    const svg = d3.select(container)
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
+      .attr('viewBox', `0 0 ${width} ${height}`)
+      .attr('style', 'max-width: 100%; height: auto;');
+    
+    // Sample data
+    const data = [
+      { stage: 'Before Optimization', time: 8 },
+      { stage: 'After Optimization', time: 6 }
+    ];
+    
+    // Set up scales
+    const x = d3.scaleBand()
+      .domain(data.map(d => d.stage))
+      .range([margin.left, width - margin.right])
+      .padding(0.3);
+    
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(data, d => d.time) * 1.2])
+      .range([height - margin.bottom, margin.top]);
+    
+    // Add bars
+    svg.selectAll('.bar')
+      .data(data)
+      .enter()
+      .append('rect')
+      .attr('class', 'bar')
+      .attr('x', d => x(d.stage))
+      .attr('y', d => y(d.time))
+      .attr('width', x.bandwidth())
+      .attr('height', d => height - margin.bottom - y(d.time))
+      .attr('fill', (d, i) => i === 0 ? '#F87171' : '#4ADE80');
+    
+    // Add value labels
+    svg.selectAll('.label')
+      .data(data)
+      .enter()
+      .append('text')
+      .attr('class', 'label')
+      .attr('x', d => x(d.stage) + x.bandwidth() / 2)
+      .attr('y', d => y(d.time) - 10)
+      .attr('text-anchor', 'middle')
+      .attr('fill', '#4B5563')
+      .text(d => `${d.time} sec`);
+    
+    // Add axes
+    svg.append('g')
+      .attr('transform', `translate(0,${height - margin.bottom})`)
+      .call(d3.axisBottom(x))
+      .selectAll('text')
+      .attr('font-size', '12px');
+    
+    svg.append('g')
+      .attr('transform', `translate(${margin.left},0)`)
+      .call(d3.axisLeft(y).ticks(5))
+      .selectAll('text')
+      .attr('font-size', '12px');
+    
+    // Add y-axis label
+    svg.append('text')
+      .attr('transform', 'rotate(-90)')
+      .attr('x', -(height / 2))
+      .attr('y', 20)
+      .attr('text-anchor', 'middle')
+      .attr('fill', '#4B5563')
+      .attr('font-size', '12px')
+      .text('Loading Time (seconds)');
+    
+    // Add improvement percentage
+    const improvement = ((data[0].time - data[1].time) / data[0].time * 100).toFixed(0);
+    
+    svg.append('text')
+      .attr('x', width / 2)
+      .attr('y', height - 10)
+      .attr('text-anchor', 'middle')
+      .attr('fill', '#4B5563')
+      .attr('font-size', '14px')
+      .attr('font-weight', 'bold')
+      .text(`${improvement}% Improvement`);
+  }
+
+  function createDataVolumeViz() {
+    const container = document.getElementById('data-volume-viz');
+    if (!container) return;
+    
+    // Clear loading message
+    container.innerHTML = '';
+    
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    const margin = { top: 40, right: 30, bottom: 60, left: 80 };
+    
+    const svg = d3.select(container)
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
+      .attr('viewBox', `0 0 ${width} ${height}`)
+      .attr('style', 'max-width: 100%; height: auto;');
+    
+    // Sample data
+    const data = [
+      { project: 'CMS Website Governance', volume: 5.2 },
+      { project: 'SBA Economic Impact', volume: 3.8 },
+      { project: 'WOSB Analysis', volume: 2.5 },
+      { project: 'Marketing Analytics', volume: 1.7 },
+      { project: 'Vendor ETL Pipeline', volume: 0.9 }
+    ];
+    
+    // Set up scales
+    const x = d3.scaleBand()
+      .domain(data.map(d => d.project))
+      .range([margin.left, width - margin.right])
+      .padding(0.3);
+    
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(data, d => d.volume) * 1.2])
+      .range([height - margin.bottom, margin.top]);
+    
+    // Add bars
+    svg.selectAll('.bar')
+      .data(data)
+      .enter()
+      .append('rect')
+      .attr('class', 'bar')
+      .attr('x', d => x(d.project))
+      .attr('y', d => y(d.volume))
+      .attr('width', x.bandwidth())
+      .attr('height', d => height - margin.bottom - y(d.volume))
+      .attr('fill', '#60A5FA');
+    
+    // Add value labels
+    svg.selectAll('.label')
+      .data(data)
+      .enter()
+      .append('text')
+      .attr('class', 'label')
+      .attr('x', d => x(d.project) + x.bandwidth() / 2)
+      .attr('y', d => y(d.volume) - 10)
+      .attr('text-anchor', 'middle')
+      .attr('fill', '#4B5563')
+      .text(d => `${d.volume} TB`);
+    
+    // Add axes
+    svg.append('g')
+      .attr('transform', `translate(0,${height - margin.bottom})`)
+      .call(d3.axisBottom(x))
+      .selectAll('text')
+      .attr('font-size', '10px')
+      .attr('transform', 'rotate(-45)')
+      .attr('text-anchor', 'end')
+      .attr('dx', '-0.8em')
+      .attr('dy', '0.15em');
+    
+    svg.append('g')
+      .attr('transform', `translate(${margin.left},0)`)
+      .call(d3.axisLeft(y).ticks(5))
+      .selectAll('text')
+      .attr('font-size', '12px');
+    
+    // Add y-axis label
+    svg.append('text')
+      .attr('transform', 'rotate(-90)')
+      .attr('x', -(height / 2))
+      .attr('y', 30)
+      .attr('text-anchor', 'middle')
+      .attr('fill', '#4B5563')
+      .attr('font-size', '12px')
+      .text('Data Volume (Terabytes)');
+  }
+
+  function createSkillsRadarViz() {
+    const container = document.getElementById('skills-radar-viz');
+    if (!container) return;
+    
+    // Clear loading message
+    container.innerHTML = '';
+    
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    const margin = 80;
+    const radius = Math.min(width, height) / 2 - margin;
+    
+    const svg = d3.select(container)
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
+      .attr('viewBox', `0 0 ${width} ${height}`)
+      .attr('style', 'max-width: 100%; height: auto;')
+      .append('g')
+      .attr('transform', `translate(${width / 2}, ${height / 2})`);
+    
+    // Sample data
+    const data = [
+      { skill: 'Python', value: 0.9 },
+      { skill: 'SQL', value: 0.85 },
+      { skill: 'ETL', value: 0.8 },
+      { skill: 'Data Modeling', value: 0.75 },
+      { skill: 'Tableau', value: 0.85 },
+      { skill: 'AWS', value: 0.7 },
+      { skill: 'Spark', value: 0.65 },
+      { skill: 'Statistical Analysis', value: 0.75 }
+    ];
+    
+    // Number of axes
+    const numAxes = data.length;
+    const angleSlice = (Math.PI * 2) / numAxes;
+    
+    // Scale for the radius
+    const rScale = d3.scaleLinear()
+      .domain([0, 1])
+      .range([0, radius]);
+    
+    // Create the straight lines radiating outward from the center
+    const axis = svg.selectAll('.axis')
+      .data(data)
+      .enter()
+      .append('g')
+      .attr('class', 'axis');
+    
+    // Append the lines
+    axis.append('line')
+      .attr('x1', 0)
+      .attr('y1', 0)
+      .attr('x2', (d, i) => rScale(1.1) * Math.cos(angleSlice * i - Math.PI / 2))
+      .attr('y2', (d, i) => rScale(1.1) * Math.sin(angleSlice * i - Math.PI / 2))
+      .attr('class', 'line')
+      .attr('stroke', '#CBD5E1')
+      .attr('stroke-width', '1px');
+    
+    // Append the labels at each axis
+    axis.append('text')
+      .attr('class', 'legend')
+      .attr('text-anchor', 'middle')
+      .attr('dy', '0.35em')
+      .attr('x', (d, i) => rScale(1.15) * Math.cos(angleSlice * i - Math.PI / 2))
+      .attr('y', (d, i) => rScale(1.15) * Math.sin(angleSlice * i - Math.PI / 2))
+      .text(d => d.skill)
+      .attr('fill', '#4B5563')
+      .attr('font-size', '12px');
+    
+    // Create the circular segments
+    for (let j = 0; j < 5; j++) {
+      const levelFactor = radius * (j / 5);
+      
+      // Create the circular segments
+      svg.selectAll('.levels')
+        .data(d3.range(1, (numAxes + 1)).map(i => i))
+        .enter()
+        .append('line')
+        .attr('x1', (d, i) => levelFactor * Math.cos(angleSlice * i - Math.PI / 2))
+        .attr('y1', (d, i) => levelFactor * Math.sin(angleSlice * i - Math.PI / 2))
+        .attr('x2', (d, i) => levelFactor * Math.cos(angleSlice * ((i + 1) % numAxes) - Math.PI / 2))
+        .attr('y2', (d, i) => levelFactor * Math.sin(angleSlice * ((i + 1) % numAxes) - Math.PI / 2))
+        .attr('class', 'line')
+        .attr('stroke', '#CBD5E1')
+        .attr('stroke-width', '0.5px');
+    }
+    
+    // Create the radar chart blobs
+    const radarLine = d3.lineRadial()
+      .curve(d3.curveLinearClosed)
+      .radius(d => rScale(d.value))
+      .angle((d, i) => i * angleSlice);
+    
+    // Create a wrapper for the blobs
+    const blobWrapper = svg.append('g')
+      .attr('class', 'radarWrapper');
+    
+    // Append the backgrounds
+    blobWrapper.append('path')
+      .datum(data)
+      .attr('class', 'radarArea')
+      .attr('d', radarLine)
+      .attr('fill', '#3B82F6')
+      .attr('fill-opacity', 0.2)
+      .attr('stroke', '#3B82F6')
+      .attr('stroke-width', 2);
+    
+    // Create the circles at each data point
+    blobWrapper.selectAll('.radarCircle')
+      .data(data)
+      .enter()
+      .append('circle')
+      .attr('class', 'radarCircle')
+      .attr('r', 5)
+      .attr('cx', (d, i) => rScale(d.value) * Math.cos(angleSlice * i - Math.PI / 2))
+      .attr('cy', (d, i) => rScale(d.value) * Math.sin(angleSlice * i - Math.PI / 2))
+      .attr('fill', '#3B82F6')
+      .attr('fill-opacity', 0.8);
+    
+    // Add value labels
+    blobWrapper.selectAll('.radarValue')
+      .data(data)
+      .enter()
+      .append('text')
+      .attr('class', 'radarValue')
+      .attr('x', (d, i) => rScale(d.value) * Math.cos(angleSlice * i - Math.PI / 2))
+      .attr('y', (d, i) => rScale(d.value) * Math.sin(angleSlice * i - Math.PI / 2))
+      .attr('dx', (d, i) => {
+        const cos = Math.cos(angleSlice * i - Math.PI / 2);
+        return cos > 0.1 ? 10 : cos < -0.1 ? -10 : 0;
+      })
+      .attr('dy', (d, i) => {
+        const sin = Math.sin(angleSlice * i - Math.PI / 2);
+        return sin > 0.1 ? 15 : sin < -0.1 ? -5 : 0;
+      })
+      .attr('text-anchor', (d, i) => {
+        const cos = Math.cos(angleSlice * i - Math.PI / 2);
+        return cos > 0.1 ? 'start' : cos < -0.1 ? 'end' : 'middle';
+      })
+      .text(d => `${(d.value * 100).toFixed(0)}%`)
+      .attr('fill', '#4B5563')
+      .attr('font-size', '10px');
+  }
+</script> 

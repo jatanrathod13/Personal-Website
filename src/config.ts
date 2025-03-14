@@ -8,7 +8,7 @@ import { LinkPreset } from './types/config'
 
 export const siteConfig: SiteConfig = {
   title: 'Jatan Rathod',
-  subtitle: 'Data Engineer & AI Technologist',
+  subtitle: 'Data Engineer & Business Intelligence Analyst',
   lang: 'en',
   themeColor: '#3b82f6',
   banner: {
@@ -84,6 +84,16 @@ export const siteConfig: SiteConfig = {
         external: false
       },
       {
+        name: 'Dashboard',
+        url: '/dashboard',
+        external: false
+      },
+      {
+        name: 'Blog',
+        url: '/blog',
+        external: false
+      },
+      {
         name: 'About',
         url: '/about',
         external: false
@@ -98,13 +108,17 @@ export const siteConfig: SiteConfig = {
   profile: {
     avatar: '/profile.jpg',
     name: 'Jatan Rathod',
-    bio: 'Senior Data Engineer with expertise in AI, Big Data, and Automation',
-    location: 'United States',
-    company: 'Fortune 500 Companies',
+    bio: 'Business Intelligence Analyst with expertise in Data Engineering, ETL Pipelines, and Data Visualization',
+    location: 'Dallas, TX',
+    company: 'Optimal Solutions Group, LLC',
+    contact: {
+      email: 'jatan.h.rathod@gmail.com',
+      phone: '(682)-230-8370'
+    },
     links: [
       {
         name: 'GitHub',
-        url: 'https://github.com/jatanrathod',
+        url: 'https://github.com/jatanrathod13',
         icon: 'i-simple-icons-github',
         color: 'text-gray-700 dark:text-gray-200'
       },
@@ -113,92 +127,114 @@ export const siteConfig: SiteConfig = {
         url: 'https://linkedin.com/in/jatanrathod',
         icon: 'i-simple-icons-linkedin',
         color: 'text-blue-500 dark:text-blue-400'
-      },
-      {
-        name: 'Twitter',
-        url: 'https://twitter.com/jatanrathod',
-        icon: 'i-simple-icons-twitter',
-        color: 'text-blue-400 dark:text-blue-300'
       }
     ],
     skills: [
       {
         category: 'Programming Languages',
-        items: ['Python', 'Java', 'Scala', 'SQL']
+        items: ['Python', 'SQL', 'JavaScript', 'HTML', 'CSS', 'D3.js', 'PowerShell', 'Bash']
       },
       {
-        category: 'AI & ML',
-        items: ['TensorFlow', 'PyTorch', 'Scikit-learn', 'MLflow']
+        category: 'Databases & Big Data',
+        items: ['SQL Server', 'PostgreSQL', 'ElasticSearch', 'Cassandra', 'Hadoop', 'Spark', 'Hive', 'Kafka']
       },
       {
-        category: 'Big Data',
-        items: ['Apache Spark', 'Apache Kafka', 'Apache Flink', 'Hadoop']
+        category: 'Visualization Tools',
+        items: ['Tableau', 'PowerBI', 'AWS QuickSight', 'Looker']
       },
       {
-        category: 'Cloud Platforms',
-        items: ['AWS', 'Azure', 'GCP', 'Snowflake']
+        category: 'Cloud & AWS',
+        items: ['S3', 'EMR', 'Lambda', 'CloudWatch', 'DynamoDB']
       },
       {
-        category: 'Databases',
-        items: ['PostgreSQL', 'MongoDB', 'Redis', 'Elasticsearch']
+        category: 'ETL & Workflow',
+        items: ['Luigi', 'Airflow', 'RedShift']
       },
       {
         category: 'DevOps & Tools',
-        items: ['Docker', 'Kubernetes', 'Jenkins', 'Terraform']
+        items: ['Git', 'Bitbucket', 'JIRA']
       }
     ],
     experience: [
       {
-        title: 'Senior Data Engineer',
-        company: 'Fortune 500 Company',
-        period: '2021 - Present',
-        description: 'Leading the development of AI-powered data pipelines processing petabytes of data daily. Implemented real-time analytics solutions using Apache Kafka and Flink.',
+        title: 'Business Intelligence Analyst',
+        company: 'Optimal Solutions Group, LLC',
+        location: 'College Park, MD',
+        period: 'June 2020 - Present',
+        description: 'Working on data warehouse and ETL solutions for Centre for Medicare and Medicaid services\' (CMS) Website Governance Project.',
         achievements: [
-          'Reduced data processing time by 60% through optimization',
-          'Implemented automated data quality monitoring system',
-          'Led team of 5 engineers in successful project delivery'
+          'Outlined a new Data Warehouse and ETL to meet business requirements for CMS Website Governance Project',
+          'Built and maintained data pipelines ingesting transactional data from 6 primary data sources using Spark, RedShift, S3 and Python',
+          'Automated ETL jobs using Luigi to process millions of records of crawled websites and its accessibility data reducing manual workload by 30%',
+          'Optimized the Data Warehouse and data pipelines for real-time Embedded Analytics by writing Python scripts and Stored Procedures to pre-calculate the metrics improving the loading time of the Tableau Dashboards by 25%'
         ]
       },
       {
-        title: 'Data Engineer',
-        company: 'Government Agency',
-        period: '2018 - 2021',
-        description: 'Built and maintained large-scale data processing systems. Developed machine learning models for predictive analytics.',
+        title: 'Business Intelligence Analyst - Intern',
+        company: 'Optimal Solutions Group, LLC',
+        location: 'College Park, MD',
+        period: 'June 2020 - May 2021',
+        description: 'Worked with US Department of Small Business Administration on data analysis and visualization projects.',
         achievements: [
-          'Designed and implemented data lake architecture',
-          'Developed automated ETL pipelines',
-          'Created real-time monitoring dashboards'
+          'Performed quantitative analysis on 10 years of Federal Procurement data to classify industries where Woman Owned Small Businesses are least represented in US',
+          'Built Economic impact input-output models to measure gross economic impact for all the Small Businesses in the United States across 1200 industries using Python',
+          'Presented results to Top federal officials using Power BI',
+          'Analyzed survey results for SBA\'s Microloan Program and built dynamic visualizations to compare small business performance'
+        ]
+      },
+      {
+        title: 'Application Development Analyst',
+        company: 'Accenture',
+        location: 'Mumbai, India',
+        period: 'July 2016 - September 2018',
+        description: 'Delivered critical business solutions for a Fortune 500 client through data analysis and visualization.',
+        achievements: [
+          'Delivered critical business solutions for a Fortune 500 client through quantitative evaluation of historical data',
+          'Developed complex SQL queries to extract large scale data to analyze customer segmentation, vertical, area, and forecast ROI for different Ads marketing channel',
+          'Conducted pre-launch A/B Testing for new marketing campaigns to measure effectiveness of targeting strategies, leading to insights which enhanced existing CRM engagement and revenue growth by 15%',
+          'Extracted and automated 1000+ vendor\'s data ETL pipeline using SQL and Python to perform large-scale data analysis and generate actionable business insights by building interactive dashboards'
         ]
       }
     ],
     education: [
       {
-        degree: 'Master of Science in Computer Science',
-        school: 'University of Technology',
-        period: '2016 - 2018',
-        specialization: 'Machine Learning & Big Data'
+        degree: 'Master of Science in Information Technology & Management',
+        school: 'The University of Texas at Dallas',
+        location: 'Dallas, TX',
+        period: 'July 2019 - June 2021'
       },
       {
-        degree: 'Bachelor of Engineering in Computer Science',
-        school: 'Engineering College',
-        period: '2012 - 2016'
+        degree: 'Bachelor of Engineering in Electronics & Communication',
+        school: 'Gujarat Technological University',
+        location: 'Ahmedabad, India',
+        period: 'June 2012 - June 2016'
       }
     ],
     certifications: [
       {
-        name: 'AWS Certified Solutions Architect',
+        name: 'AWS Data Analytics',
         issuer: 'Amazon Web Services',
-        date: '2023'
-      },
-      {
-        name: 'Google Cloud Professional Data Engineer',
-        issuer: 'Google',
         date: '2022'
       },
       {
-        name: 'Apache Spark Certified Developer',
-        issuer: 'Databricks',
+        name: 'Tableau Desktop Certified Associate',
+        issuer: 'Tableau',
         date: '2021'
+      }
+    ],
+    awards: [
+      {
+        name: 'Accenture Outperforming Award',
+        issuer: 'Accenture',
+        year: '2017-18',
+        description: 'Recognized for Best Autonomous Data practices in the Resources Industry'
+      }
+    ],
+    leadership: [
+      {
+        role: 'Vice President - Marketing',
+        organization: 'UT-Dallas Student Leadership Council',
+        period: '2020-2021'
       }
     ]
   },
