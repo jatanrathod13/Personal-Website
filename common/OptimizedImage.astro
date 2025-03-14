@@ -1,28 +1,20 @@
+---
 import { getImagePath, optimizeImageSrc } from '../../utils/image-utils';
 
-interface Props {
-  src: string;
-  alt: string;
-  width?: number;
-  height?: number;
-  class?: string;
-  fallback?: string;
-}
-
-const { 
-  src, 
-  alt, 
-  width, 
-  height, 
-  class: className = '', 
-  fallback = '/images/placeholder.jpg' 
-} = Astro.props;
+const props = Astro.props;
+const src = props.src;
+const alt = props.alt;
+const width = props.width;
+const height = props.height;
+const className = props.class || '';
+const fallback = props.fallback || '/images/placeholder.jpg';
 
 const imagePath = getImagePath(src, fallback);
 const optimizedSrc = optimizeImageSrc(imagePath, width, height);
 
 // Generate a unique ID for this image
 const imageId = `img-${Math.random().toString(36).substring(2, 9)}`;
+---
 
 <div class={`image-container ${className}`}>
   <img 
@@ -45,12 +37,8 @@ const imageId = `img-${Math.random().toString(36).substring(2, 9)}`;
 </style>
 
 <script>
-// Corrected variable declaration
-const imageId = `img-${Math.random().toString(36).substring(2, 9)}`;
-const fallback = '/images/placeholder.jpg';
-
 document.addEventListener('DOMContentLoaded', () => {
-  const img = document.getElementById(imageId);
+  const img = document.getElementById("{{imageId}}");
   if (img) {
     img.onload = function() {
       this.classList.remove('opacity-0');
@@ -61,8 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     img.onerror = function() {
       this.onerror = null;
-      this.src = fallback;
+      this.src = "{{fallback}}";
     };
   }
 });
-</script> 
+</script>
