@@ -71,6 +71,7 @@ export interface SkillCategory {
 export interface Experience {
   title: string
   company: string
+  location: string
   period: string
   description: string
   achievements: string[]
@@ -79,6 +80,7 @@ export interface Experience {
 export interface Education {
   degree: string
   school: string
+  location: string
   period: string
   specialization?: string
 }
@@ -89,17 +91,36 @@ export interface Certification {
   date: string
 }
 
+export interface Award {
+  name: string
+  issuer: string
+  year: string
+  description: string
+}
+
+export interface Leadership {
+  role: string
+  organization: string
+  period: string
+}
+
 export interface ProfileConfig {
   avatar: string
   name: string
   bio: string
   location: string
   company: string
+  contact?: {
+    email: string
+    phone: string
+  }
   links: ProfileLink[]
   skills: SkillCategory[]
   experience: Experience[]
   education: Education[]
   certifications: Certification[]
+  awards?: Award[]
+  leadership?: Leadership[]
 }
 
 export interface LicenseConfig {
