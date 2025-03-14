@@ -5,7 +5,7 @@ function HeroSection() {
     <section className='h-screen flex items-center justify-center relative'>
       <div className='absolute inset-0'>
         <img
-          src='/path/to/your/background.jpg' // Replace with your actual background image path
+          src='/images/background.jpg' // Updated to a more likely path
           alt='Background'
           className='object-cover w-full h-full'
         />
