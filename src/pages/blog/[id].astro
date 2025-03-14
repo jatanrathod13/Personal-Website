@@ -1,35 +1,39 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro'
 import OptimizedImage from '../../components/common/OptimizedImage.astro'
-import { siteConfig } from '../../data/site-config'
 import { blogPosts } from '../../data'
+import { siteConfig } from '../../data/site-config'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+
+export const prerender = true
 
 // Define getStaticPaths to generate all possible routes
 export async function getStaticPaths() {
   return blogPosts.map(post => ({
     params: { id: post.id },
     props: { post },
-  }));
+  }))
 }
 
-const { id } = Astro.params;
-const { post } = Astro.props;
+const { id } = Astro.params
+const { post } = Astro.props
 
 // Validate post exists
 if (!post) {
-  return Astro.redirect('/404');
+  return Astro.redirect('/404')
 }
 
 // Use a different variable name for the page title
-const postTitle = `${post.title} | Blog | ${siteConfig.title}`;
+const postTitle = `${post.title} | Blog | ${siteConfig.title}`
 
 // Get related posts with better filtering
 const relatedPosts = blogPosts
-  .filter(p => p.id !== post.id && (
-    p.category === post.category || 
-    p.tags?.some(tag => post.tags?.includes(tag))
-  ))
-  .slice(0, 3);
+  .filter(
+    p =>
+      p.id !== post.id &&
+      (p.category === post.category ||
+        p.tags?.some(tag => post.tags?.includes(tag))),
+  )
+  .slice(0, 3)
 
 // Ensure title is always a string
 const pageTitle = `${post.title} | Blog | ${siteConfig.title}`

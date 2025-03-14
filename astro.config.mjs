@@ -1,7 +1,9 @@
 import mdx from '@astrojs/mdx'
+import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
 import svelte from '@astrojs/svelte'
 import tailwind from '@astrojs/tailwind'
+import vercel from '@astrojs/vercel'
 import swup from '@swup/astro'
 import Compress from 'astro-compress'
 import icon from 'astro-icon'
@@ -24,7 +26,8 @@ import { remarkReadingTime } from './src/plugins/remark-reading-time.mjs'
 export default defineConfig({
   site: 'https://jatanrathod.com',
   base: '/',
-  output: 'static',
+  output: 'server',
+  adapter: vercel(),
   devToolbar: {
     enabled: false, // This disables the dev toolbar
   },
@@ -33,25 +36,27 @@ export default defineConfig({
     mdx(),
     sitemap(),
     svelte(),
+    react(),
     icon({
       include: {
         ph: ['*'],
         'simple-icons': ['*'],
       },
     }),
-    Compress({
-      css: true,
-      html: {
-        removeAttributeQuotes: false,
-      },
-      img: {
-        quality: 80,
-      },
-      js: true,
-      svg: {
-        multipass: true,
-      },
-    }),
+    // Disable Compress integration temporarily
+    // Compress({
+    //   css: true,
+    //   html: {
+    //     removeAttributeQuotes: false,
+    //   },
+    //   img: {
+    //     quality: 80,
+    //   },
+    //   js: true,
+    //   svg: {
+    //     multipass: true,
+    //   },
+    // }),
   ],
   build: {
     format: 'directory',

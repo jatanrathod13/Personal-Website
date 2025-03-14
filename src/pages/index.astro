@@ -1,7 +1,16 @@
 ---
+import Header from '../components/Header'
+import HeroSection from '../components/HeroSection'
 import { profileConfig, siteConfig } from '../config'
 import BaseLayout from '../layouts/BaseLayout.astro'
+import Layout from '../layouts/Layout.astro'
 ---
+
+<Layout title="Jatan Rathod - Personal Website">
+  <Header client:load />
+  <HeroSection />
+  <!-- Other content can follow here -->
+</Layout>
 
 <BaseLayout title={siteConfig.title}>
   <!-- Hero Section with Animation -->
