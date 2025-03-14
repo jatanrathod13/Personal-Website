@@ -10,55 +10,63 @@ import LightDarkSwitch from './LightDarkSwitch.svelte'
 import { url } from '../utils/url-utils'
 const className = Astro.props.class
 
-let links: NavBarLink[] = navBarConfig.links.map(
-  (item: NavBarLink | LinkPreset): NavBarLink => {
-    if (typeof item === 'number') {
-      return LinkPresets[item]
-    }
-    return item
-  },
-)
+const navLinks = [
+  { name: 'Home', url: '/', external: false },
+  { name: 'Projects', url: '/projects', external: false },
+  { name: 'Blog', url: '/blog', external: false },
+  { name: 'About', url: '/about', external: false },
+  { name: 'Contact', url: '/contact', external: false }
+]
 ---
-<div id="navbar" class="z-50 onload-animation">
-    <div class="absolute h-8 left-0 right-0 -top-8 bg-[var(--card-bg)] transition"></div> <!-- used for onload animation -->
-    <div class:list={[
-        className,
-        "card-base !overflow-visible max-w-[var(--page-width)] h-[4.5rem] !rounded-t-none mx-auto flex items-center justify-between px-4"]}>
-        <a href={url('/')} class="btn-plain scale-animation rounded-lg h-[3.25rem] px-5 font-bold active:scale-95">
-            <div class="flex flex-row text-[var(--primary)] items-center text-md">
-                <Icon name="material-symbols:home-outline-rounded" class="text-[1.75rem] mb-1 mr-2" />
-                {siteConfig.title}
-            </div>
-        </a>
-        <div class="hidden md:flex">
-            {links.map((l) => {
-                return <a aria-label={l.name} href={l.external ? l.url : url(l.url)} target={l.external ? "_blank" : null}
-                          class="btn-plain scale-animation rounded-lg h-11 font-bold px-5 active:scale-95"
-                >
-                    <div class="flex items-center">
-                        {l.name}
-                        {l.external && <Icon name="fa6-solid:arrow-up-right-from-square" class="text-[0.875rem] transition -translate-y-[1px] ml-1 text-black/[0.2] dark:text-white/[0.2]"></Icon>}
-                    </div>
-                </a>;
-            })}
-        </div>
-        <div class="flex">
-            <!--<SearchPanel client:load>-->
-            <Search client:only="svelte"></Search>
-            {!siteConfig.themeColor.fixed && (
-                    <button aria-label="Display Settings" class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90" id="display-settings-switch">
-                        <Icon name="material-symbols:palette-outline" class="text-[1.25rem]"></Icon>
-                    </button>
-            )}
-            <LightDarkSwitch client:load></LightDarkSwitch>
-            <button aria-label="Menu" name="Nav Menu" class="btn-plain scale-animation rounded-lg w-11 h-11 active:scale-90 md:!hidden" id="nav-menu-switch">
-                <Icon name="material-symbols:menu-rounded" class="text-[1.25rem]"></Icon>
-            </button>
-        </div>
-        <NavMenuPanel links={links}></NavMenuPanel>
-        <DisplaySettings client:only="svelte"></DisplaySettings>
+
+<nav class="navbar fixed w-full z-50">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center justify-between h-16">
+      <a href="/" class="text-2xl font-bold ai-gradient">
+        JR
+      </a>
+      
+      <div class="hidden md:flex items-center space-x-8">
+        {navLinks.map(link => (
+          <a
+            href={link.url}
+            class="nav-link text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+            target={link.external ? '_blank' : undefined}
+            rel={link.external ? 'noopener noreferrer' : undefined}
+          >
+            {link.name}
+          </a>
+        ))}
+      </div>
+
+      <button
+        id="mobile-menu-button"
+        class="md:hidden text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+        aria-label="Toggle menu"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
     </div>
-</div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden md:hidden">
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        {navLinks.map(link => (
+          <a
+            href={link.url}
+            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800"
+            target={link.external ? '_blank' : undefined}
+            rel={link.external ? 'noopener noreferrer' : undefined}
+          >
+            {link.name}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</nav>
 
 <script>
 function switchTheme() {
@@ -101,6 +109,13 @@ function loadButtonScript() {
 }
 
 loadButtonScript();
+
+const mobileMenuButton = document.getElementById('mobile-menu-button')
+const mobileMenu = document.getElementById('mobile-menu')
+
+mobileMenuButton?.addEventListener('click', () => {
+  mobileMenu?.classList.toggle('hidden')
+})
 </script>
 
 {import.meta.env.PROD && <script is:inline define:vars={{scriptUrl: url('/pagefind/pagefind.js')}}>

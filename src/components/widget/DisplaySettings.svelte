@@ -2,7 +2,7 @@
 import { i18n } from '@i18n/translation'
 import I18nKey from '@i18n/i18nKey'
 import { getDefaultHue, getHue, setHue } from '@utils/setting-utils'
-import Icon from '@iconify/svelte'
+import Icon from '@iconify/svelte/dist/OfflineIcon.svelte'
 
 let hue = getHue()
 const defaultHue = getDefaultHue()

@@ -1,0 +1,191 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { siteConfig } from '../config'
+
+// Dummy blog posts data - in a real site, this would come from a CMS or markdown files
+const blogPosts = [
+  {
+    id: 1,
+    title: 'Building Scalable Data Pipelines with Apache Airflow',
+    excerpt: 'Learn how to design and implement robust data pipelines using Apache Airflow, with best practices for monitoring and maintenance.',
+    date: '2024-03-15',
+    category: 'Data Engineering',
+    image: '/images/blog/airflow-pipeline.jpg',
+    readTime: '8 min read',
+    author: 'Jatan Rathod'
+  },
+  {
+    id: 2,
+    title: 'Implementing AI Solutions in Enterprise Environments',
+    excerpt: 'A comprehensive guide to deploying AI solutions in large organizations, covering infrastructure, security, and scalability considerations.',
+    date: '2024-03-10',
+    category: 'AI & Machine Learning',
+    image: '/images/blog/ai-enterprise.jpg',
+    readTime: '10 min read',
+    author: 'Jatan Rathod'
+  },
+  {
+    id: 3,
+    title: 'Automating Data Quality Checks with Great Expectations',
+    excerpt: 'Discover how to implement automated data quality checks using Great Expectations framework to ensure data reliability.',
+    date: '2024-03-05',
+    category: 'Data Engineering',
+    image: '/images/blog/data-quality.jpg',
+    readTime: '6 min read',
+    author: 'Jatan Rathod'
+  },
+  {
+    id: 4,
+    title: 'The Future of AI in Data Engineering',
+    excerpt: 'Explore emerging trends and technologies in AI that are shaping the future of data engineering and analytics.',
+    date: '2024-02-28',
+    category: 'AI & Machine Learning',
+    image: '/images/blog/ai-future.jpg',
+    readTime: '7 min read',
+    author: 'Jatan Rathod'
+  }
+]
+
+const categories = ['All', 'Data Engineering', 'AI & Machine Learning', 'Automation']
+---
+
+<BaseLayout title={`Blog | ${siteConfig.title}`}>
+  <!-- Hero Section -->
+  <section class="py-20 bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">Tech Insights & Tutorials</h1>
+        <p class="text-xl opacity-90">
+          Exploring the latest trends in data engineering, AI, and automation through practical tutorials and industry insights.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog Content Section -->
+  <section class="py-20">
+    <div class="container mx-auto px-4">
+      <!-- Search and Filter -->
+      <div class="max-w-4xl mx-auto mb-12">
+        <div class="flex flex-col md:flex-row gap-4">
+          <div class="flex-1">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search articles..."
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700"
+            />
+          </div>
+          <div class="flex gap-2 overflow-x-auto pb-2">
+            {categories.map(category => (
+              <button
+                class="px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-blue-500 hover:text-white transition-colors whitespace-nowrap"
+                data-category={category}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Blog Posts Grid -->
+      <div class="max-w-4xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {blogPosts.map(post => (
+            <article class="bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <img
+                src={post.image}
+                alt={post.title}
+                class="w-full h-48 object-cover"
+              />
+              <div class="p-6">
+                <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-4">
+                  <span>{post.date}</span>
+                  <span>•</span>
+                  <span>{post.readTime}</span>
+                </div>
+                <h2 class="text-xl font-bold mb-2 hover:text-blue-500">
+                  <a href={`/blog/${post.id}`}>{post.title}</a>
+                </h2>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">
+                  {post.excerpt}
+                </p>
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-medium text-blue-500">{post.category}</span>
+                  <a
+                    href={`/blog/${post.id}`}
+                    class="text-sm font-medium text-blue-500 hover:text-blue-600"
+                  >
+                    Read more →
+                  </a>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <!-- Newsletter Section -->
+      <div class="max-w-2xl mx-auto mt-20 text-center">
+        <h2 class="text-3xl font-bold mb-4 ai-gradient">Stay Updated</h2>
+        <p class="text-gray-600 dark:text-gray-300 mb-6">
+          Subscribe to my newsletter for the latest articles and insights on data engineering, AI, and automation.
+        </p>
+        <form class="flex gap-4">
+          <input
+            type="email"
+            placeholder="Enter your email"
+            class="flex-1 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700"
+          />
+          <button
+            type="submit"
+            class="btn btn-primary"
+          >
+            Subscribe
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Search functionality
+    const searchInput = document.getElementById('searchInput') as HTMLInputElement
+    const categoryButtons = document.querySelectorAll('[data-category]')
+    const blogPosts = document.querySelectorAll('article')
+
+    function filterPosts() {
+      const searchTerm = searchInput.value.toLowerCase()
+      const selectedCategory = document.querySelector('[data-category].bg-blue-500')?.textContent || 'All'
+
+      blogPosts.forEach(post => {
+        const title = post.querySelector('h2')?.textContent?.toLowerCase() || ''
+        const excerpt = post.querySelector('p')?.textContent?.toLowerCase() || ''
+        const category = post.querySelector('.text-blue-500')?.textContent || ''
+
+        const matchesSearch = title.includes(searchTerm) || excerpt.includes(searchTerm)
+        const matchesCategory = selectedCategory === 'All' || category === selectedCategory
+
+        post.style.display = matchesSearch && matchesCategory ? 'block' : 'none'
+      })
+    }
+
+    searchInput?.addEventListener('input', filterPosts)
+
+    categoryButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        categoryButtons.forEach(btn => btn.classList.remove('bg-blue-500', 'text-white'))
+        button.classList.add('bg-blue-500', 'text-white')
+        filterPosts()
+      })
+    })
+
+    // Newsletter form handling
+    document.querySelector('form')?.addEventListener('submit', (e) => {
+      e.preventDefault()
+      alert('Thank you for subscribing! You will receive updates soon.')
+      ;(e.target as HTMLFormElement).reset()
+    })
+  </script>
+</BaseLayout> 

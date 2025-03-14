@@ -1,29 +1,24 @@
 import type { AUTO_MODE, DARK_MODE, LIGHT_MODE } from '@constants/constants'
 
-export type SiteConfig = {
+export interface SiteConfig {
   title: string
   subtitle: string
 
   lang: string
 
-  themeColor: {
-    hue: number
-    fixed: boolean
-  }
+  themeColor: string
   banner: {
     enable: boolean
-    src: string
-    position?: 'top' | 'center' | 'bottom'
-    credit: {
-      enable: boolean
-      text: string
-      url?: string
-    }
+    text: string
+    link: string
   }
   toc: {
     enable: boolean
-    depth: 1 | 2 | 3
+    depth: number
   }
+  navBar: NavBarConfig
+  profile: ProfileConfig
+  license: LicenseConfig
 
   favicon: Favicon[]
 }
@@ -40,28 +35,74 @@ export enum LinkPreset {
   About = 2,
 }
 
-export type NavBarLink = {
+export interface NavBarLink {
   name: string
   url: string
-  external?: boolean
+  external: boolean
 }
 
-export type NavBarConfig = {
-  links: (NavBarLink | LinkPreset)[]
+export interface NavBarLogo {
+  enable: boolean
+  compact: boolean
+  svg: boolean
+  width: number
+  height: number
+  alt: string
 }
 
-export type ProfileConfig = {
-  avatar?: string
+export interface NavBarConfig {
+  logo: NavBarLogo
+  title: string
+  links: NavBarLink[]
+}
+
+export interface ProfileLink {
   name: string
-  bio?: string
-  links: {
-    name: string
-    url: string
-    icon: string
-  }[]
+  url: string
+  icon: string
+  color: string
 }
 
-export type LicenseConfig = {
+export interface SkillCategory {
+  category: string
+  items: string[]
+}
+
+export interface Experience {
+  title: string
+  company: string
+  period: string
+  description: string
+  achievements: string[]
+}
+
+export interface Education {
+  degree: string
+  school: string
+  period: string
+  specialization?: string
+}
+
+export interface Certification {
+  name: string
+  issuer: string
+  date: string
+}
+
+export interface ProfileConfig {
+  avatar: string
+  name: string
+  bio: string
+  location: string
+  company: string
+  links: ProfileLink[]
+  skills: SkillCategory[]
+  experience: Experience[]
+  education: Education[]
+  certifications: Certification[]
+}
+
+export interface LicenseConfig {
   enable: boolean
   name: string
   url: string

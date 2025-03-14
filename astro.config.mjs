@@ -1,10 +1,10 @@
-import sitemap from "@astrojs/sitemap";
-import svelte from "@astrojs/svelte";
+import { defineConfig } from 'astro/config';
+import mdx from '@astrojs/mdx';
+import sitemap from '@astrojs/sitemap';
 import tailwind from "@astrojs/tailwind";
 import swup from "@swup/astro";
 import Compress from "astro-compress";
 import icon from "astro-icon";
-import { defineConfig } from "astro/config";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeComponents from "rehype-components"; /* Render the custom directive content */
 import rehypeKatex from "rehype-katex";
@@ -18,50 +18,25 @@ import { GithubCardComponent } from "./src/plugins/rehype-component-github-card.
 import { parseDirectiveNode } from "./src/plugins/remark-directive-rehype.js";
 import { remarkExcerpt } from "./src/plugins/remark-excerpt.js";
 import { remarkReadingTime } from "./src/plugins/remark-reading-time.mjs";
+import svelte from '@astrojs/svelte';
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://fuwari.vercel.app/",
-  base: "/",
-  trailingSlash: "always",
+  site: 'https://example.com',
+  base: '/',
+  output: 'static',
+  devToolbar: {
+    enabled: false  // This disables the dev toolbar
+  },
   integrations: [
-    tailwind(
-        {
-          nesting: true,
-        }
-    ),
-    swup({
-      theme: false,
-      animationClass: "transition-swup-", // see https://swup.js.org/options/#animationselector
-      // the default value `transition-` cause transition delay
-      // when the Tailwind class `transition-all` is used
-      containers: ["main", "#toc"],
-      smoothScrolling: true,
-      cache: true,
-      preload: true,
-      accessibility: true,
-      updateHead: true,
-      updateBodyClass: false,
-      globalInstance: true,
-    }),
-    icon({
-      include: {
-        "preprocess: vitePreprocess(),": ["*"],
-        "fa6-brands": ["*"],
-        "fa6-regular": ["*"],
-        "fa6-solid": ["*"],
-      },
-    }),
-    svelte(),
+    tailwind(),
+    mdx(),
     sitemap(),
-    Compress({
-      CSS: false,
-      Image: false,
-      Action: {
-        Passed: async () => true, // https://github.com/PlayForm/Compress/issues/376
-      },
-    }),
+    svelte()
   ],
+  build: {
+    format: 'directory'
+  },
   markdown: {
     remarkPlugins: [
       remarkMath,
@@ -128,5 +103,8 @@ export default defineConfig({
         },
       },
     },
+    ssr: {
+      noExternal: ['@iconify/svelte']
+    }
   },
 });

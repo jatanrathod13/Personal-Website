@@ -1,3 +1,11 @@
+---
+title: "About Me"
+description: "Data Engineer with expertise in AI and ML"
+pubDate: 2024-03-14
+---
+
+Content goes here...
+
 # About
 This is the demo site for [Fuwari](https://github.com/saicaca/fuwari).
 
