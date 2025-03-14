@@ -1,47 +1,58 @@
 ---
-import { Icon } from 'astro-icon/components'
-import DisplaySettings from './widget/DisplaySettings.svelte'
-import { LinkPreset, type NavBarLink } from '../types/config'
 import { navBarConfig, siteConfig } from '../config'
-import NavMenuPanel from './widget/NavMenuPanel.astro'
-import Search from './Search.svelte'
 import { LinkPresets } from '../constants/link-presets'
-import LightDarkSwitch from './LightDarkSwitch.svelte'
+import { LinkPreset, type NavBarLink } from '../types/config'
 import { url } from '../utils/url-utils'
+import LightDarkSwitch from './LightDarkSwitch.svelte'
+import Search from './Search.svelte'
+import DisplaySettings from './widget/DisplaySettings.svelte'
+import NavMenuPanel from './widget/NavMenuPanel.astro'
 const className = Astro.props.class
 
 const navLinks = [
   { name: 'Home', url: '/', external: false },
   { name: 'Projects', url: '/projects', external: false },
-  { name: 'Blog', url: '/blog', external: false },
   { name: 'About', url: '/about', external: false },
-  { name: 'Contact', url: '/contact', external: false }
+  { name: 'Contact', url: '/contact', external: false },
 ]
 ---
 
-<nav class="navbar fixed w-full z-50">
+<nav class="navbar fixed w-full z-50 backdrop-blur-md bg-white/80 dark:bg-gray-900/80 border-b border-gray-200 dark:border-gray-800 shadow-sm transition-all">
   <div class="container mx-auto px-4">
     <div class="flex items-center justify-between h-16">
-      <a href="/" class="text-2xl font-bold ai-gradient">
-        JR
+      <a href="/" class="text-2xl font-bold flex items-center gap-2 transition-transform hover:scale-105">
+        <span class="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg w-9 h-9 flex items-center justify-center">
+          JR
+        </span>
+        <span class="hidden sm:inline text-gray-800 dark:text-gray-200">{siteConfig.title}</span>
       </a>
       
-      <div class="hidden md:flex items-center space-x-8">
+      <div class="hidden md:flex items-center space-x-6">
         {navLinks.map(link => (
           <a
             href={link.url}
-            class="nav-link text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+            class="nav-link relative py-1 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group"
             target={link.external ? '_blank' : undefined}
             rel={link.external ? 'noopener noreferrer' : undefined}
           >
             {link.name}
+            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 dark:bg-blue-400 transition-all group-hover:w-full"></span>
           </a>
         ))}
+
+        <button 
+          class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          id="theme-toggle"
+          aria-label="Toggle dark mode"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 dark:hidden" viewBox="0 0 256 256"><path fill="currentColor" d="M120 40V16a8 8 0 0 1 16 0v24a8 8 0 0 1-16 0Zm72 88a64 64 0 1 1-64-64a64.07 64.07 0 0 1 64 64Zm-16 0a48 48 0 1 0-48 48a48.05 48.05 0 0 0 48-48ZM58.34 69.66a8 8 0 0 0 11.32-11.32l-16-16a8 8 0 0 0-11.32 11.32Zm0 116.68l-16 16a8 8 0 0 0 11.32 11.32l16-16a8 8 0 0 0-11.32-11.32ZM192 72a8 8 0 0 0 5.66-2.34l16-16a8 8 0 0 0-11.32-11.32l-16 16A8 8 0 0 0 192 72Zm5.66 114.34a8 8 0 0 0-11.32 11.32l16 16a8 8 0 0 0 11.32-11.32ZM48 128a8 8 0 0 0-8-8H16a8 8 0 0 0 0 16h24a8 8 0 0 0 8-8Zm192-8h-24a8 8 0 0 0 0 16h24a8 8 0 0 0 0-16Z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 hidden dark:block" viewBox="0 0 256 256"><path fill="currentColor" d="M233.54 142.23a8 8 0 0 0-10-4.34a88.08 88.08 0 0 1-109.8-109.8a8 8 0 0 0-10.47-9.62A104.84 104.84 0 0 0 24 128c0 57.23 46.51 104 104 104a104.93 104.93 0 0 0 105.54-89.77Zm-40.31 55.31A88 88 0 0 1 40 128a87.62 87.62 0 0 1 22.24-58.41A104.08 104.08 0 0 0 193.77 197.54Z"/></svg>
+        </button>
       </div>
 
       <button
         id="mobile-menu-button"
-        class="md:hidden text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+        class="md:hidden flex items-center justify-center w-10 h-10 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
         aria-label="Toggle menu"
       >
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -51,18 +62,30 @@ const navLinks = [
     </div>
 
     <!-- Mobile menu -->
-    <div id="mobile-menu" class="hidden md:hidden">
-      <div class="px-2 pt-2 pb-3 space-y-1">
+    <div id="mobile-menu" class="hidden md:hidden absolute left-0 right-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-md">
+      <div class="px-4 py-3 space-y-2">
         {navLinks.map(link => (
           <a
             href={link.url}
-            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800"
+            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
             target={link.external ? '_blank' : undefined}
             rel={link.external ? 'noopener noreferrer' : undefined}
           >
             {link.name}
           </a>
         ))}
+        
+        <div class="flex items-center px-3 py-2">
+          <button 
+            class="flex items-center justify-center w-10 h-10 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+            id="mobile-theme-toggle"
+            aria-label="Toggle dark mode"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 dark:hidden" viewBox="0 0 256 256"><path fill="currentColor" d="M120 40V16a8 8 0 0 1 16 0v24a8 8 0 0 1-16 0Zm72 88a64 64 0 1 1-64-64a64.07 64.07 0 0 1 64 64Zm-16 0a48 48 0 1 0-48 48a48.05 48.05 0 0 0 48-48ZM58.34 69.66a8 8 0 0 0 11.32-11.32l-16-16a8 8 0 0 0-11.32 11.32Zm0 116.68l-16 16a8 8 0 0 0 11.32 11.32l16-16a8 8 0 0 0-11.32-11.32ZM192 72a8 8 0 0 0 5.66-2.34l16-16a8 8 0 0 0-11.32-11.32l-16 16A8 8 0 0 0 192 72Zm5.66 114.34a8 8 0 0 0-11.32 11.32l16 16a8 8 0 0 0 11.32-11.32ZM48 128a8 8 0 0 0-8-8H16a8 8 0 0 0 0 16h24a8 8 0 0 0 8-8Zm192-8h-24a8 8 0 0 0 0 16h24a8 8 0 0 0 0-16Z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 hidden dark:block" viewBox="0 0 256 256"><path fill="currentColor" d="M233.54 142.23a8 8 0 0 0-10-4.34a88.08 88.08 0 0 1-109.8-109.8a8 8 0 0 0-10.47-9.62A104.84 104.84 0 0 0 24 128c0 57.23 46.51 104 104 104a104.93 104.93 0 0 0 105.54-89.77Zm-40.31 55.31A88 88 0 0 1 40 128a87.62 87.62 0 0 1 22.24-58.41A104.08 104.08 0 0 0 193.77 197.54Z"/></svg>
+          </button>
+          <span class="ml-3 text-gray-700 dark:text-gray-300">Toggle theme</span>
+        </div>
       </div>
     </div>
   </div>
@@ -80,43 +103,68 @@ function switchTheme() {
 }
 
 function loadButtonScript() {
-    let switchBtn = document.getElementById("scheme-switch");
-    if (switchBtn) {
-        switchBtn.addEventListener("click", function () {
-            switchTheme()
+    // Setup theme toggle buttons
+    const themeToggles = document.querySelectorAll("#theme-toggle, #mobile-theme-toggle");
+    themeToggles.forEach(btn => {
+        if (btn) {
+            btn.addEventListener("click", function () {
+                switchTheme();
+            });
+        }
+    });
+
+    // Setup mobile menu toggle
+    const mobileMenuButton = document.getElementById("mobile-menu-button");
+    const mobileMenu = document.getElementById("mobile-menu");
+    
+    if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener("click", function() {
+            mobileMenu.classList.toggle("hidden");
         });
     }
 
-    let settingBtn = document.getElementById("display-settings-switch");
-    if (settingBtn) {
-        settingBtn.addEventListener("click", function () {
-            let settingPanel = document.getElementById("display-setting");
-            if (settingPanel) {
-                settingPanel.classList.toggle("float-panel-closed");
+    // Close mobile menu when clicking outside
+    document.addEventListener("click", function(event) {
+        if (mobileMenu && mobileMenuButton) {
+            const target = event.target as Node;
+            if (!mobileMenu.contains(target) && !mobileMenuButton.contains(target)) {
+                mobileMenu.classList.add("hidden");
             }
-        });
-    }
+        }
+    });
 
-    let menuBtn = document.getElementById("nav-menu-switch");
-    if (menuBtn) {
-        menuBtn.addEventListener("click", function () {
-            let menuPanel = document.getElementById("nav-menu-panel");
-            if (menuPanel) {
-                menuPanel.classList.toggle("float-panel-closed");
+    // Handle navbar scroll effects
+    let lastScrollTop = 0;
+    const navbar = document.querySelector(".navbar");
+    
+    if (navbar) {
+        window.addEventListener("scroll", function() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > 50) {
+                navbar.classList.add("shadow-md");
+            } else {
+                navbar.classList.remove("shadow-md");
             }
+            
+            lastScrollTop = scrollTop;
         });
     }
 }
 
-loadButtonScript();
-
-const mobileMenuButton = document.getElementById('mobile-menu-button')
-const mobileMenu = document.getElementById('mobile-menu')
-
-mobileMenuButton?.addEventListener('click', () => {
-  mobileMenu?.classList.toggle('hidden')
-})
+document.addEventListener("DOMContentLoaded", loadButtonScript);
+document.addEventListener("astro:after-swap", loadButtonScript);
 </script>
+
+<style>
+.navbar {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.navbar.hidden {
+  transform: translateY(-100%);
+}
+</style>
 
 {import.meta.env.PROD && <script is:inline define:vars={{scriptUrl: url('/pagefind/pagefind.js')}}>
 async function loadPagefind() {

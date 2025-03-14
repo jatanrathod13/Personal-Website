@@ -1,15 +1,17 @@
 ---
-import Layout from '@/layouts/Layout.astro';
-import { projects } from '@/data';
+import { projects } from '@/data'
+import Layout from '@/layouts/Layout.astro'
+
+export const prerender = true
 
 export async function getStaticPaths() {
   return projects.map(project => ({
     params: { id: project.id },
     props: { project },
-  }));
+  }))
 }
 
-const { project } = Astro.props;
+const { project } = Astro.props
 ---
 
 <Layout title={project.title}>
