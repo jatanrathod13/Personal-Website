@@ -6,7 +6,7 @@ interface Props {
     description: string;
     image: string;
     technologies: string[];
-    link: string;
+    link?: string;
     category: string;
   }
 }
@@ -34,7 +34,7 @@ const { project } = Astro.props;
       ))}
     </div>
     <a 
-      href={project.link}
+      href={`/projects/${project.id}`}
       class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline"
     >
       View Project
@@ -43,4 +43,4 @@ const { project } = Astro.props;
       </svg>
     </a>
   </div>
-</article> 
+</article>

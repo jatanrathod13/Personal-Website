@@ -1,56 +1,9 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro'
-import { siteConfig } from '../config'
-
-// Project data - in a real site, this would come from a CMS or markdown files
-const projects = [
-  {
-    id: 1,
-    title: 'AI-Powered Data Pipeline',
-    description: 'Built an end-to-end data pipeline using Apache Airflow and TensorFlow for real-time data processing and prediction.',
-    image: '/images/projects/data-pipeline.jpg',
-    technologies: ['Python', 'Apache Airflow', 'TensorFlow', 'AWS'],
-    category: 'Data Engineering',
-    demoUrl: '#',
-    githubUrl: 'https://github.com/jatanrathod/ai-data-pipeline',
-    featured: true
-  },
-  {
-    id: 2,
-    title: 'Predictive Analytics Platform',
-    description: 'Developed a scalable analytics platform that processes petabytes of data to provide predictive insights for business decisions.',
-    image: '/images/projects/analytics-platform.jpg',
-    technologies: ['Apache Spark', 'Python', 'Machine Learning', 'Azure'],
-    category: 'AI & Machine Learning',
-    demoUrl: '#',
-    githubUrl: 'https://github.com/jatanrathod/predictive-analytics',
-    featured: true
-  },
-  {
-    id: 3,
-    title: 'Real-time Monitoring System',
-    description: 'Created a real-time monitoring system using Apache Kafka and Elasticsearch for tracking system metrics and alerts.',
-    image: '/images/projects/monitoring-system.jpg',
-    technologies: ['Apache Kafka', 'Elasticsearch', 'Node.js', 'Docker'],
-    category: 'Data Engineering',
-    demoUrl: '#',
-    githubUrl: 'https://github.com/jatanrathod/monitoring-system',
-    featured: false
-  },
-  {
-    id: 4,
-    title: 'Automated ETL Framework',
-    description: 'Built a flexible ETL framework that automates data transformation and loading processes for multiple data sources.',
-    image: '/images/projects/etl-framework.jpg',
-    technologies: ['Python', 'Apache Airflow', 'PostgreSQL', 'Docker'],
-    category: 'Data Engineering',
-    demoUrl: '#',
-    githubUrl: 'https://github.com/jatanrathod/etl-framework',
-    featured: false
-  }
-]
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { siteConfig } from '../config';
+import { projects } from '../data';
 ---
-
 <BaseLayout title={`Projects | ${siteConfig.title}`}>
   <!-- Hero Section -->
   <section class="py-20 bg-gradient-to-r from-blue-500 to-purple-600 text-white">
@@ -70,44 +23,7 @@ const projects = [
       <h2 class="text-3xl font-bold mb-12 text-center ai-gradient">Featured Projects</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
         {projects.filter(p => p.featured).map(project => (
-          <article class="bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-            <img
-              src={project.image}
-              alt={project.title}
-              class="w-full h-64 object-cover"
-            />
-            <div class="p-6">
-              <h3 class="text-2xl font-bold mb-2">{project.title}</h3>
-              <p class="text-gray-600 dark:text-gray-300 mb-4">
-                {project.description}
-              </p>
-              <div class="flex flex-wrap gap-2 mb-6">
-                {project.technologies.map(tech => (
-                  <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm">
-                    {tech}
-                  </span>
-                ))}
-              </div>
-              <div class="flex gap-4">
-                <a
-                  href={project.demoUrl}
-                  class="btn btn-primary"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  View Demo
-                </a>
-                <a
-                  href={project.githubUrl}
-                  class="btn btn-outline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  GitHub
-                </a>
-              </div>
-            </div>
-          </article>
+          <ProjectCard project={project} />
         ))}
       </div>
     </div>
@@ -119,46 +35,9 @@ const projects = [
       <h2 class="text-3xl font-bold mb-12 text-center ai-gradient">All Projects</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {projects.filter(p => !p.featured).map(project => (
-          <article class="bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-            <img
-              src={project.image}
-              alt={project.title}
-              class="w-full h-48 object-cover"
-            />
-            <div class="p-6">
-              <h3 class="text-xl font-bold mb-2">{project.title}</h3>
-              <p class="text-gray-600 dark:text-gray-300 mb-4">
-                {project.description}
-              </p>
-              <div class="flex flex-wrap gap-2 mb-6">
-                {project.technologies.map(tech => (
-                  <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-xs">
-                    {tech}
-                  </span>
-                ))}
-              </div>
-              <div class="flex gap-4">
-                <a
-                  href={project.demoUrl}
-                  class="btn btn-sm btn-primary"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  View Demo
-                </a>
-                <a
-                  href={project.githubUrl}
-                  class="btn btn-sm btn-outline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  GitHub
-                </a>
-              </div>
-            </div>
-          </article>
+          <ProjectCard project={project} />
         ))}
       </div>
     </div>
   </section>
-</BaseLayout> 
+</BaseLayout>

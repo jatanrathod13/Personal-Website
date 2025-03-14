@@ -9,29 +9,57 @@ import { LinkPreset } from './types/config'
 export const siteConfig: SiteConfig = {
   title: 'Jatan Rathod',
   subtitle: 'Data Engineer & AI Technologist',
-  description: 'Personal website and portfolio of Jatan Rathod, showcasing projects and expertise in data engineering and AI.',
-  url: 'https://jatanrathod.com',
-  language: 'en',
+  lang: 'en',
   themeColor: '#3b82f6',
   banner: {
     enable: true,
-    src: '/images/banner.jpg',
-    position: 'center',
-    credit: {
-      enable: false,
-      text: '',
-      url: ''
-    }
+    text: 'Welcome to my personal website', 
+    link: '/about'
   },
   toc: {
-    enable: true,           // Display the table of contents on the right side of the post
-    depth: 2                // Maximum heading depth to show in the table, from 1 to 3
+    enable: true,
+    depth: 2
   },
   favicon: [
     {
-      src: '/favicon/icon.png',
+      src: '/favicon/favicon-light-32.png',
       theme: 'light',
       sizes: '32x32',
+    },
+    {
+      src: '/favicon/favicon-light-128.png',
+      theme: 'light',
+      sizes: '128x128',
+    },
+    {
+      src: '/favicon/favicon-light-180.png',
+      theme: 'light',
+      sizes: '180x180',
+    },
+    {
+      src: '/favicon/favicon-light-192.png',
+      theme: 'light',
+      sizes: '192x192',
+    },
+    {
+      src: '/favicon/favicon-dark-32.png',
+      theme: 'dark',
+      sizes: '32x32',
+    },
+    {
+      src: '/favicon/favicon-dark-128.png',
+      theme: 'dark',
+      sizes: '128x128',
+    },
+    {
+      src: '/favicon/favicon-dark-180.png',
+      theme: 'dark',
+      sizes: '180x180',
+    },
+    {
+      src: '/favicon/favicon-dark-192.png',
+      theme: 'dark',
+      sizes: '192x192',
     }
   ],
   navBar: {
