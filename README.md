@@ -1,64 +1,93 @@
-# 🍥Fuwari
+Below is an updated version of your README that adapts the Fuwari template to highlight your personal website. You can copy and paste this into your repository’s README file:
 
-A static blog template built with [Astro](https://astro.build).
+---
 
-[**🖥️ Live Demo (Vercel)**](https://fuwari.vercel.app)&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
-[**📦 Old Hexo Version**](https://github.com/saicaca/hexo-theme-vivia)&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
-[**🌏 中文**](https://github.com/saicaca/fuwari/blob/main/README.zh-CN.md)&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
-[**🌏 日本語**](https://github.com/saicaca/fuwari/blob/main/README.ja-JP.md)&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
-[**🌏 한국어**](https://github.com/saicaca/fuwari/blob/main/README.ko.md)&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
-[**🌏 Español**](https://github.com/saicaca/fuwari/blob/main/README.es.md)&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
-[**🌏 ไทย**](https://github.com/saicaca/fuwari/blob/main/README.th.md)
+# Personal Website
+
+Welcome to my personal website repository! This site is built with [Astro](https://astro.build) using the Fuwari template and is customized to showcase my projects, blog posts, and portfolio.
+
+[**🖥️ Live Site**](https://personal-website-5vf5ukb0c-jatanrathod13s-projects.vercel.app/)
 
 > README version: `2024-09-10`
 
-![Preview Image](https://raw.githubusercontent.com/saicaca/resource/main/fuwari/home.png)
+---
 
 ## ✨ Features
 
-- [x] Built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com)
-- [x] Smooth animations and page transitions
-- [x] Light / dark mode
-- [x] Customizable theme colors & banner
-- [x] Responsive design
-- [ ] Comments
-- [x] Search
-- [ ] TOC
+- Built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com)
+- Smooth animations and page transitions
+- Light / dark mode
+- Customizable theme and layout
+- Responsive design
+- Blog support *(if applicable)*
+- Easy deployment to platforms like Vercel, Netlify, GitHub Pages, etc.
 
-## 🚀 How to Use
-
-1. [Generate a new repository](https://github.com/saicaca/fuwari/generate) from this template or fork this repository.
-2. To edit your blog locally, clone your repository, run `pnpm install` AND `pnpm add sharp` to install dependencies.
-   - Install [pnpm](https://pnpm.io) `npm install -g pnpm` if you haven't.
-3. Edit the config file `src/config.ts` to customize your blog.
-4. Run `pnpm new-post <filename>` to create a new post and edit it in `src/content/posts/`.
-5. Deploy your blog to Vercel, Netlify, GitHub Pages, etc. following [the guides](https://docs.astro.build/en/guides/deploy/). You need to edit the site configuration in `astro.config.mjs` before deployment.
-
-## ⚙️ Frontmatter of Posts
-
-```yaml
 ---
-title: My First Blog Post
-published: 2023-09-09
-description: This is the first post of my new Astro blog.
-image: ./cover.jpg
-tags: [Foo, Bar]
-category: Front-end
-draft: false
-lang: jp      # Set only if the post's language differs from the site's language in `config.ts`
+
+## 🚀 Getting Started
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/jatanrathod13/Personal-Website.git
+   cd Personal-Website
+   ```
+
+2. **Install Dependencies**
+
+   Make sure you have [pnpm](https://pnpm.io) installed:
+   ```bash
+   npm install -g pnpm
+   ```
+   Then run:
+   ```bash
+   pnpm install && pnpm add sharp
+   ```
+
+3. **Customize Your Site**
+
+   Edit the configuration file (`src/config.ts`) to update your site details such as title, theme, and social links.
+
+4. **Run the Development Server**
+
+   ```bash
+   pnpm dev
+   ```
+   Open [http://localhost:4321](http://localhost:4321) in your browser to view your site.
+
+5. **Build and Deploy**
+
+   ```bash
+   pnpm build
+   pnpm preview
+   ```
+   Deploy your site to your preferred hosting service. For guidance, check out [Astro's deployment documentation](https://docs.astro.build/en/guides/deploy/).
+
 ---
-```
 
-## 🧞 Commands
+## 🧞 Available Commands
 
-All commands are run from the root of the project, from a terminal:
+| Command                             | Action                                            |
+|-------------------------------------|---------------------------------------------------|
+| `pnpm install` AND `pnpm add sharp` | Installs dependencies                             |
+| `pnpm dev`                          | Starts the local dev server at `localhost:4321`   |
+| `pnpm build`                        | Builds the production site to `./dist/`           |
+| `pnpm preview`                      | Previews your build locally before deployment     |
+| `pnpm new-post <filename>`          | *(If using blog features)* Creates a new post     |
+| `pnpm astro ...`                    | Runs CLI commands (e.g., `astro add`, `astro check`)|
+| `pnpm astro --help`                 | Displays help using the Astro CLI                 |
 
-| Command                             | Action                                           |
-|:------------------------------------|:-------------------------------------------------|
-| `pnpm install` AND `pnpm add sharp` | Installs dependencies                            |
-| `pnpm dev`                          | Starts local dev server at `localhost:4321`      |
-| `pnpm build`                        | Build your production site to `./dist/`          |
-| `pnpm preview`                      | Preview your build locally, before deploying     |
-| `pnpm new-post <filename>`          | Create a new post                                |
-| `pnpm astro ...`                    | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro --help`                 | Get help using the Astro CLI                     |
+---
+
+## 📝 Customization
+
+- Update site metadata and settings in `src/config.ts`.
+- Customize pages, posts, and styles in the `src` directory to suit your personal style and content.
+
+---
+
+## 💡 Note
+
+This repository is based on the [Fuwari](https://github.com/saicaca/fuwari) template. If you’re interested in exploring the original project, visit its GitHub page.
+
+Feel free to contribute, open issues, or provide suggestions for improvements!
