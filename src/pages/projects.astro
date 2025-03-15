@@ -1,28 +1,61 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import ProjectCard from '../components/ProjectCard.astro';
-import { siteConfig } from '../config';
-import { projects } from '../data';
+import ProjectCard from '../components/ProjectCard.astro'
+import { siteConfig } from '../config'
+import { projects } from '../data'
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const featuredProjects = projects.filter(p => p.featured)
+const otherProjects = projects.filter(p => !p.featured)
 ---
 <BaseLayout title={`Projects | ${siteConfig.title}`}>
   <!-- Hero Section -->
-  <section class="py-20 bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-    <div class="container mx-auto px-4">
+  <section class="py-20 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-90"></div>
+    <div class="absolute top-0 left-0 right-0 h-full overflow-hidden">
+      <div class="absolute opacity-10 top-[10%] left-[5%] w-96 h-96 bg-white rounded-full blur-3xl"></div>
+      <div class="absolute opacity-10 bottom-[10%] right-[5%] w-96 h-96 bg-white rounded-full blur-3xl"></div>
+    </div>
+    <div class="container mx-auto px-4 relative z-10">
       <div class="max-w-3xl mx-auto text-center">
-        <h1 class="text-4xl md:text-5xl font-bold mb-6">My Projects</h1>
-        <p class="text-xl opacity-90">
-          A collection of my work in data engineering, AI, and automation. Each project demonstrates my approach to solving complex problems.
+        <h1 class="text-4xl md:text-5xl font-bold mb-6 text-white">Professional Experience</h1>
+        <p class="text-xl text-white opacity-90 leading-relaxed">
+          A showcase of my real-world projects in data engineering, AI, and government consulting. Each project demonstrates my approach to solving complex challenges with cutting-edge technology solutions.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- Featured Projects -->
-  <section class="py-20">
+  <!-- Career Summary Section -->
+  <section class="py-16 bg-white dark:bg-gray-900">
     <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold mb-12 text-center ai-gradient">Featured Projects</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-        {projects.filter(p => p.featured).map(project => (
+      <div class="max-w-4xl mx-auto">
+        <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 shadow-lg">
+          <h2 class="text-3xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">Professional Journey</h2>
+          <div class="space-y-6 text-gray-700 dark:text-gray-300">
+            <p class="text-lg">
+              My career spans work at leading organizations like <span class="font-semibold text-blue-600 dark:text-blue-400">Accenture</span> and <span class="font-semibold text-blue-600 dark:text-blue-400">Optimal Solutions Group</span>, where I've specialized in building transformative data and AI solutions.
+            </p>
+            <p class="text-lg">
+              At <span class="font-semibold">Accenture</span>, I worked with Fortune 500 clients to optimize data workflows, build ERP reporting systems, and implement data-driven decision-making frameworks that drove business value across the enterprise.
+            </p>
+            <p class="text-lg">
+              With <span class="font-semibold">Optimal Solutions Group</span>, a federal contractor, I've led projects for numerous government agencies including the SBA, Department of Education, CMS, and FAA. My work spans economic impact studies, accessibility compliance platforms, and AI-powered tools that enhance government operations and public service delivery.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Projects -->
+  <section class="py-20 bg-gray-50 dark:bg-gray-800">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">Featured Projects</h2>
+      <p class="text-center text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-12">
+        These projects showcase my expertise in building scalable data systems, implementing AI solutions, and delivering measurable results for government agencies and enterprise clients.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        {featuredProjects.map(project => (
           <ProjectCard project={project} />
         ))}
       </div>
@@ -30,14 +63,44 @@ import { projects } from '../data';
   </section>
 
   <!-- All Projects -->
-  <section class="py-20 bg-gray-50 dark:bg-gray-800">
+  <section class="py-20 bg-white dark:bg-gray-900">
     <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold mb-12 text-center ai-gradient">All Projects</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        {projects.filter(p => !p.featured).map(project => (
+      <h2 class="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">Additional Projects</h2>
+      <p class="text-center text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-12">
+        A diverse collection of my work across various domains, demonstrating my breadth of experience in data engineering, analytics, and AI implementation.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        {otherProjects.map(project => (
           <ProjectCard project={project} />
         ))}
       </div>
     </div>
   </section>
+
+  <!-- Call to Action -->
+  <section class="py-16 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold mb-6">Interested in Working Together?</h2>
+      <p class="text-xl mb-8 max-w-2xl mx-auto">
+        I'm always open to discussing new projects, innovative data solutions, and opportunities to create impact through technology.
+      </p>
+      <a 
+        href="/contact" 
+        class="inline-block px-8 py-4 bg-white text-blue-600 font-bold rounded-full hover:bg-gray-100 transition-colors shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all"
+      >
+        Get in Touch
+      </a>
+    </div>
+  </section>
 </BaseLayout>
+
+<style>
+  /* Add animation for project cards */
+  article {
+    transition: all 0.3s ease;
+  }
+  
+  article:hover {
+    transform: translateY(-5px);
+  }
+</style>
