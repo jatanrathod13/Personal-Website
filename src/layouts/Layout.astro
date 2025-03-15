@@ -19,7 +19,6 @@ import { defaultFavicons } from '../constants/icon'
 import type { Favicon } from '../types/config'
 import { url, pathsEqual } from '../utils/url-utils'
 import 'katex/dist/katex.css'
-import ImageDebug from '../components/debug/ImageDebug.astro'
 
 interface Props {
   title?: string
@@ -160,7 +159,6 @@ const bannerOffset =
     <main class="content">
       <slot />
     </main>
-    {import.meta.env.DEV && <ImageDebug />}
   </body>
 </html>
 

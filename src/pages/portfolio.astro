@@ -1,0 +1,102 @@
+---
+import RagQA from '../components/RagQA.jsx'
+import { siteConfig } from '../config'
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title={`AI Portfolio | ${siteConfig.title}`}>
+  <!-- Hero Section -->
+  <section class="py-20 bg-gradient-to-r from-blue-700 to-purple-700 text-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">AI Portfolio Showcase</h1>
+        <p class="text-xl opacity-90 mb-8">
+          Experience my AI expertise through interactive demonstrations and cutting-edge applications.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Introduction Section -->
+  <section id="introduction" class="py-16 bg-gray-50 dark:bg-gray-900">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
+          <h2 class="text-3xl font-bold mb-6 text-slate-800 dark:text-white">AI Applications</h2>
+          <p class="text-lg text-gray-700 dark:text-gray-300 mb-4">
+            This portfolio section showcases my expertise in designing and implementing sophisticated AI solutions. Below, you'll find an interactive Retrieval-Augmented Generation (RAG) chatbot that demonstrates my skills in developing modern AI applications.
+          </p>
+          <p class="text-lg text-gray-700 dark:text-gray-300">
+            This RAG system combines the power of Large Language Models with knowledge retrieval capabilities to provide accurate, contextual responses based on my professional experience and technical knowledge.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI-Driven Feature: RAG-Powered Q&A -->
+  <section class="py-16 bg-white dark:bg-gray-800">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold mb-4 text-center bg-gradient-to-r from-blue-700 to-purple-700 text-transparent bg-clip-text">AI-Powered Knowledge Assistant</h2>
+        <p class="text-center mb-8 text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+          Interact with this Retrieval-Augmented Generation (RAG) powered assistant to learn more about my data engineering expertise, AI implementations, and technical approaches.
+        </p>
+        
+        <div id="rag-qa-container" class="bg-gray-50 dark:bg-gray-900 rounded-lg p-6 shadow-lg">
+          <RagQA client:load />
+        </div>
+
+        <div class="mt-12 bg-blue-50 dark:bg-blue-900/30 p-6 rounded-lg">
+          <h3 class="text-xl font-bold mb-4 text-blue-700 dark:text-blue-300">About This AI Assistant</h3>
+          <p class="text-gray-700 dark:text-gray-300 mb-4">
+            This assistant demonstrates my implementation of a Retrieval-Augmented Generation (RAG) system, a cutting-edge approach in AI that combines the generative capabilities of Large Language Models with external knowledge retrieval.
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+              <h4 class="font-bold text-blue-700 dark:text-blue-300 mb-2">Technical Implementation</h4>
+              <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 space-y-1">
+                <li>Vector database for efficient knowledge retrieval</li>
+                <li>Context-aware query processing</li>
+                <li>Semantic search capabilities</li>
+                <li>Optimized response generation</li>
+              </ul>
+            </div>
+            <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+              <h4 class="font-bold text-blue-700 dark:text-blue-300 mb-2">Sample Questions</h4>
+              <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 space-y-1">
+                <li>Tell me about your ETL approach</li>
+                <li>How do you ensure data quality?</li>
+                <li>What machine learning pipelines have you built?</li>
+                <li>Describe your cloud expertise</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Animation for the data flow lines in the hero section */
+  .data-flow-line {
+    animation: flow 3s infinite;
+  }
+
+  @keyframes flow {
+    0% {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+    }
+    100% {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 0;
+    }
+  }
+
+  /* Smooth scrolling for the page */
+  html {
+    scroll-behavior: smooth;
+  }
+</style> 

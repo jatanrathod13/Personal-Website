@@ -10,7 +10,7 @@ export const siteConfig: SiteConfig = {
   title: 'Jatan Rathod',
   subtitle: 'Data Engineer & Business Intelligence Analyst',
   lang: 'en',
-  themeColor: '#3b82f6',
+  themeColor: '#4f46e5',
   banner: {
     enable: true,
     text: 'Welcome to my personal website', 
@@ -84,8 +84,8 @@ export const siteConfig: SiteConfig = {
         external: false
       },
       {
-        name: 'Dashboard',
-        url: '/dashboard',
+        name: 'Portfolio',
+        url: '/portfolio',
         external: false
       },
       {
@@ -108,7 +108,7 @@ export const siteConfig: SiteConfig = {
   profile: {
     avatar: '/profile.jpg',
     name: 'Jatan Rathod',
-    bio: 'Business Intelligence Analyst with expertise in Data Engineering, ETL Pipelines, and Data Visualization',
+    bio: 'Business intelligence analyst with expertise in data engineering, ETL pipelines, and data visualization',
     location: 'Dallas, TX',
     company: 'Optimal Solutions Group, LLC',
     contact: {
@@ -161,12 +161,12 @@ export const siteConfig: SiteConfig = {
         company: 'Optimal Solutions Group, LLC',
         location: 'College Park, MD',
         period: 'June 2020 - Present',
-        description: 'Working on data warehouse and ETL solutions for Centre for Medicare and Medicaid services\' (CMS) Website Governance Project.',
+        description: 'Working on data warehouse and ETL solutions for Centre for Medicare and Medicaid Services\' (CMS) Website Governance Project.',
         achievements: [
-          'Outlined a new Data Warehouse and ETL to meet business requirements for CMS Website Governance Project',
+          'Outlined a new data warehouse and ETL to meet business requirements for CMS Website Governance Project',
           'Built and maintained data pipelines ingesting transactional data from 6 primary data sources using Spark, RedShift, S3 and Python',
           'Automated ETL jobs using Luigi to process millions of records of crawled websites and its accessibility data reducing manual workload by 30%',
-          'Optimized the Data Warehouse and data pipelines for real-time Embedded Analytics by writing Python scripts and Stored Procedures to pre-calculate the metrics improving the loading time of the Tableau Dashboards by 25%'
+          'Optimized the data warehouse and data pipelines for real-time embedded analytics by writing Python scripts and stored procedures to pre-calculate the metrics improving the loading time of the Tableau dashboards by 25%'
         ]
       },
       {
@@ -176,9 +176,9 @@ export const siteConfig: SiteConfig = {
         period: 'June 2020 - May 2021',
         description: 'Worked with US Department of Small Business Administration on data analysis and visualization projects.',
         achievements: [
-          'Performed quantitative analysis on 10 years of Federal Procurement data to classify industries where Woman Owned Small Businesses are least represented in US',
-          'Built Economic impact input-output models to measure gross economic impact for all the Small Businesses in the United States across 1200 industries using Python',
-          'Presented results to Top federal officials using Power BI',
+          'Performed quantitative analysis on 10 years of federal procurement data to classify industries where woman-owned small businesses are least represented in US',
+          'Built economic impact input-output models to measure gross economic impact for all the small businesses in the United States across 1,200 industries using Python',
+          'Presented results to top federal officials using Power BI',
           'Analyzed survey results for SBA\'s Microloan Program and built dynamic visualizations to compare small business performance'
         ]
       },
@@ -190,9 +190,9 @@ export const siteConfig: SiteConfig = {
         description: 'Delivered critical business solutions for a Fortune 500 client through data analysis and visualization.',
         achievements: [
           'Delivered critical business solutions for a Fortune 500 client through quantitative evaluation of historical data',
-          'Developed complex SQL queries to extract large scale data to analyze customer segmentation, vertical, area, and forecast ROI for different Ads marketing channel',
-          'Conducted pre-launch A/B Testing for new marketing campaigns to measure effectiveness of targeting strategies, leading to insights which enhanced existing CRM engagement and revenue growth by 15%',
-          'Extracted and automated 1000+ vendor\'s data ETL pipeline using SQL and Python to perform large-scale data analysis and generate actionable business insights by building interactive dashboards'
+          'Developed complex SQL queries to extract large-scale data to analyze customer segmentation, vertical, area, and forecast ROI for different ads marketing channels',
+          'Conducted pre-launch A/B testing for new marketing campaigns to measure effectiveness of targeting strategies, leading to insights which enhanced existing CRM engagement and revenue growth by 15%',
+          'Extracted and automated 1,000+ vendors\' data ETL pipeline using SQL and Python to perform large-scale data analysis and generate actionable business insights by building interactive dashboards'
         ]
       }
     ],

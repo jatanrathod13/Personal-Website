@@ -1,6 +1,6 @@
 # RAG-Powered Q&A Feature
 
-This document provides information about the Retrieval-Augmented Generation (RAG) Q&A feature implemented in the dashboard.
+This document provides information about the Retrieval-Augmented Generation (RAG) Q&A feature implemented in the portfolio.
 
 ## Overview
 
@@ -66,7 +66,7 @@ If you encounter issues with the Q&A feature:
 1. Check that your OpenAI API key is correctly set in the `.env` file
 2. Verify that the API key has sufficient quota and permissions
 3. Check the browser console for any error messages
-4. Ensure the component is properly imported and rendered in the dashboard
+4. Ensure the component is properly imported and rendered in the portfolio
 
 ## Safeguards and Rate Limiting
 
