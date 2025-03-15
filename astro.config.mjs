@@ -127,6 +127,7 @@ export default defineConfig({
     ssr: {
       noExternal: ['astro-icon'],
     },
+    envPrefix: ['PUBLIC_', 'OPENAI_'],
   },
   image: {
     service: {

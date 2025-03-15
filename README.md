@@ -1,4 +1,4 @@
-Below is an updated version of your README that adapts the Fuwari template to highlight your personal website. You can copy and paste this into your repository’s README file:
+Below is an updated version of your README that adapts the Fuwari template to highlight your personal website. You can copy and paste this into your repository's README file:
 
 ---
 
@@ -48,14 +48,28 @@ Welcome to my personal website repository! This site is built with [Astro](https
 
    Edit the configuration file (`src/config.ts`) to update your site details such as title, theme, and social links.
 
-4. **Run the Development Server**
+4. **Set Up Environment Variables**
+
+   Copy the example environment file:
+   ```bash
+   cp .env.example .env
+   ```
+   
+   Then edit `.env` to add your OpenAI API key for the RAG-Powered Q&A feature:
+   ```
+   OPENAI_API_KEY=your_actual_openai_api_key
+   ```
+   
+   You can get an API key from [OpenAI's platform](https://platform.openai.com/api-keys).
+
+5. **Run the Development Server**
 
    ```bash
    pnpm dev
    ```
    Open [http://localhost:4321](http://localhost:4321) in your browser to view your site.
 
-5. **Build and Deploy**
+6. **Build and Deploy**
 
    ```bash
    pnpm build
@@ -88,6 +102,6 @@ Welcome to my personal website repository! This site is built with [Astro](https
 
 ## 💡 Note
 
-This repository is based on the [Fuwari](https://github.com/saicaca/fuwari) template. If you’re interested in exploring the original project, visit its GitHub page.
+This repository is based on the [Fuwari](https://github.com/saicaca/fuwari) template. If you're interested in exploring the original project, visit its GitHub page.
 
 Feel free to contribute, open issues, or provide suggestions for improvements!

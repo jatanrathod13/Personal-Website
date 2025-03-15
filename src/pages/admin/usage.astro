@@ -1,0 +1,222 @@
+---
+import Layout from '../../layouts/Layout.astro'
+---
+
+<Layout title="API Usage Statistics">
+  <main class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">OpenAI API Usage Statistics</h1>
+    
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Authentication</h2>
+      <p class="mb-4">Enter your admin API key to view usage statistics.</p>
+      <div class="flex space-x-2 mb-4">
+        <input 
+          type="password" 
+          id="apiKey" 
+          placeholder="Admin API Key" 
+          class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+        />
+        <button 
+          id="authBtn" 
+          class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-300"
+        >
+          Authenticate
+        </button>
+      </div>
+      <div id="authError" class="hidden bg-red-100 text-red-700 p-3 rounded-lg mb-4"></div>
+    </div>
+    
+    <div id="statsContainer" class="hidden">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-2xl font-bold">Current Usage</h2>
+          <button 
+            id="refreshBtn" 
+            class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-300"
+          >
+            Refresh Data
+          </button>
+        </div>
+        
+        <div id="statsLoading" class="py-8 text-center text-gray-500">
+          <p>Loading statistics...</p>
+        </div>
+        
+        <div id="statsContent" class="hidden">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+              <h3 class="text-lg font-semibold mb-2 text-blue-800 dark:text-blue-200">Token Usage</h3>
+              <div class="flex justify-between mb-2">
+                <span>Daily Tokens Used:</span>
+                <span id="dailyTokens" class="font-bold">0</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Daily Token Limit:</span>
+                <span id="tokenLimit" class="font-bold">0</span>
+              </div>
+              <div class="mt-3 bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden">
+                <div id="tokenProgress" class="bg-blue-600 h-4" style="width: 0%"></div>
+              </div>
+            </div>
+            
+            <div class="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
+              <h3 class="text-lg font-semibold mb-2 text-purple-800 dark:text-purple-200">Request Usage</h3>
+              <div class="flex justify-between mb-2">
+                <span>Daily Requests Used:</span>
+                <span id="dailyRequests" class="font-bold">0</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Daily Request Limit:</span>
+                <span id="requestLimit" class="font-bold">0</span>
+              </div>
+              <div class="mt-3 bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden">
+                <div id="requestProgress" class="bg-purple-600 h-4" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg">
+            <h3 class="text-lg font-semibold mb-2">Additional Information</h3>
+            <div class="flex justify-between mb-2">
+              <span>Active IPs:</span>
+              <span id="activeIPs" class="font-bold">0</span>
+            </div>
+            <div class="flex justify-between mb-2">
+              <span>Last Updated:</span>
+              <span id="lastUpdated" class="font-bold">Never</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  let apiKey = '';
+  
+  // DOM elements
+  const apiKeyInput = document.getElementById('apiKey') as HTMLInputElement;
+  const authBtn = document.getElementById('authBtn');
+  const authError = document.getElementById('authError');
+  const statsContainer = document.getElementById('statsContainer');
+  const refreshBtn = document.getElementById('refreshBtn');
+  const statsLoading = document.getElementById('statsLoading');
+  const statsContent = document.getElementById('statsContent');
+  
+  // Stats elements
+  const dailyTokens = document.getElementById('dailyTokens');
+  const tokenLimit = document.getElementById('tokenLimit');
+  const tokenProgress = document.getElementById('tokenProgress');
+  const dailyRequests = document.getElementById('dailyRequests');
+  const requestLimit = document.getElementById('requestLimit');
+  const requestProgress = document.getElementById('requestProgress');
+  const activeIPs = document.getElementById('activeIPs');
+  const lastUpdated = document.getElementById('lastUpdated');
+  
+  // Event listeners
+  authBtn?.addEventListener('click', authenticate);
+  refreshBtn?.addEventListener('click', fetchStats);
+  
+  // Try to load API key from localStorage
+  const savedApiKey = localStorage.getItem('admin_api_key');
+  if (savedApiKey) {
+    apiKey = savedApiKey;
+    if (apiKeyInput) apiKeyInput.value = savedApiKey;
+    authenticate();
+  }
+  
+  // Authentication function
+  async function authenticate() {
+    if (authError) authError.classList.add('hidden');
+    
+    // Get API key from input
+    const inputKey = apiKeyInput?.value || '';
+    if (!inputKey) {
+      showAuthError('Please enter an API key');
+      return;
+    }
+    
+    apiKey = inputKey;
+    
+    // Show loading state
+    if (statsContainer) statsContainer.classList.remove('hidden');
+    if (statsLoading) statsLoading.classList.remove('hidden');
+    if (statsContent) statsContent.classList.add('hidden');
+    
+    try {
+      await fetchStats();
+      
+      // Save API key to localStorage
+      localStorage.setItem('admin_api_key', apiKey);
+    } catch (error) {
+      if (statsContainer) statsContainer.classList.add('hidden');
+      showAuthError('Authentication failed. Please check your API key.');
+      console.error('Authentication error:', error);
+    }
+  }
+  
+  // Fetch stats function
+  async function fetchStats() {
+    if (!apiKey) return;
+    
+    if (statsLoading) statsLoading.classList.remove('hidden');
+    if (statsContent) statsContent.classList.add('hidden');
+    
+    try {
+      const response = await fetch('/api/usage-stats', {
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      updateStatsDisplay(data);
+      
+      if (statsLoading) statsLoading.classList.add('hidden');
+      if (statsContent) statsContent.classList.remove('hidden');
+    } catch (error) {
+      console.error('Error fetching stats:', error);
+      showAuthError('Failed to fetch statistics. Please try again.');
+      
+      if (statsContainer) statsContainer.classList.add('hidden');
+    }
+  }
+  
+  // Update stats display
+  function updateStatsDisplay(data: any) {
+    const { stats, timestamp } = data;
+    
+    // Update token usage
+    if (dailyTokens) dailyTokens.textContent = stats.dailyTokensUsed.toLocaleString();
+    if (tokenLimit) tokenLimit.textContent = stats.dailyTokenLimit.toLocaleString();
+    
+    // Update token progress bar
+    const tokenPercentage = Math.min(100, (stats.dailyTokensUsed / stats.dailyTokenLimit) * 100);
+    if (tokenProgress) tokenProgress.style.width = `${tokenPercentage}%`;
+    
+    // Update request usage
+    if (dailyRequests) dailyRequests.textContent = stats.dailyRequestsUsed.toLocaleString();
+    if (requestLimit) requestLimit.textContent = stats.dailyRequestLimit.toLocaleString();
+    
+    // Update request progress bar
+    const requestPercentage = Math.min(100, (stats.dailyRequestsUsed / stats.dailyRequestLimit) * 100);
+    if (requestProgress) requestProgress.style.width = `${requestPercentage}%`;
+    
+    // Update additional info
+    if (activeIPs) activeIPs.textContent = stats.activeIPs.toLocaleString();
+    if (lastUpdated) lastUpdated.textContent = new Date(timestamp).toLocaleString();
+  }
+  
+  // Show authentication error
+  function showAuthError(message: string) {
+    if (authError) {
+      authError.textContent = message;
+      authError.classList.remove('hidden');
+    }
+  }
+</script> 

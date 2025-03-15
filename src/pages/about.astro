@@ -7,17 +7,21 @@ const pageTitle = `About | ${siteConfig.title}`
 
 <BaseLayout title={pageTitle}>
   <div class="container max-w-5xl mx-auto px-4 py-16 space-y-24">
-    <!-- Hero Section -->
-    <section class="flex flex-col md:flex-row gap-12 items-center">
+    <!-- Hero Section with Grid Background -->
+    <section class="relative flex flex-col md:flex-row gap-12 items-center py-20">
+      <div class="absolute inset-0 grid-background -z-10"></div>
       <div class="md:w-1/3">
-        <img 
-          src={profileConfig.avatar} 
-          alt={profileConfig.name} 
-          class="rounded-full w-64 h-64 object-cover border-4 border-skin-accent shadow-xl mx-auto"
-        />
+        <div class="relative">
+          <img 
+            src={profileConfig.avatar} 
+            alt={profileConfig.name} 
+            class="rounded-2xl w-64 h-64 object-cover animated-border glow mx-auto"
+          />
+          <div class="absolute -top-4 -right-4 w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full opacity-20 blur-xl"></div>
+        </div>
       </div>
       <div class="md:w-2/3 space-y-6 text-center md:text-left">
-        <h1 class="text-5xl font-bold text-skin-accent">
+        <h1 class="text-5xl font-bold ai-gradient">
           Hi, I'm {profileConfig.name}
         </h1>
         <p class="text-2xl font-light text-skin-base leading-relaxed">
@@ -29,7 +33,7 @@ const pageTitle = `About | ${siteConfig.title}`
               href={link.url} 
               target="_blank" 
               rel="noopener noreferrer"
-              class={`text-3xl transition-transform hover:scale-110 ${link.color}`}
+              class={`text-3xl transition-transform hover:scale-110 ${link.color} glow`}
               aria-label={link.name}
             >
               {link.name === 'GitHub' && (
@@ -48,31 +52,42 @@ const pageTitle = `About | ${siteConfig.title}`
     </section>
 
     <!-- About Me Section -->
-    <section>
-      <h2 class="text-3xl font-bold mb-8 text-skin-accent border-b-2 border-skin-accent pb-2">About Me</h2>
+    <section class="modern-card p-8">
+      <h2 class="text-3xl font-bold mb-8 section-header ai-gradient">About Me</h2>
       <div class="prose prose-lg dark:prose-invert max-w-none">
         <p>
-          I'm a Senior Data Engineer with a passion for building high-performance, scalable data solutions that power AI systems. With over 6 years of experience, I've worked with Fortune 500 companies and government agencies to transform their data infrastructure and unlock new insights.
+          My journey into the world of AI, ML, and Data Engineering began with a simple question: "How can we make data work smarter, not harder?" This curiosity led me to discover the transformative power of data-driven decision making during my early career at Accenture, where I witnessed firsthand how data could revolutionize business operations.
         </p>
         <p>
-          My expertise spans the full data engineering stack - from designing data architectures to implementing ETL pipelines, managing databases, and deploying machine learning models in production environments.
+          What truly ignited my passion was a challenging project where I developed an automated ETL pipeline for analyzing 1000+ vendor datasets. The moment I saw how this solution reduced manual processing time from weeks to hours while uncovering previously hidden business insights, I knew I had found my calling. This experience taught me that the real magic happens when we combine technical expertise with business acumen to create solutions that drive tangible value.
         </p>
         <p>
-          I'm particularly interested in real-time data processing, stream analytics, and building scalable data platforms that enable data scientists and analysts to extract value from data efficiently.
+          Today, as a Senior Data Engineer, I specialize in building scalable data infrastructures that power AI systems. My approach combines cutting-edge technologies with practical business solutions, focusing on three key areas:
+        </p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li>Designing and implementing robust data pipelines that handle real-time processing at scale</li>
+          <li>Developing AI/ML models that transform raw data into actionable insights</li>
+          <li>Creating intuitive data visualizations that make complex information accessible to stakeholders</li>
+        </ul>
+        <p>
+          What sets me apart is my ability to bridge the gap between technical complexity and business value. I believe that the best data solutions are those that not only work efficiently but also drive meaningful business outcomes. Whether I'm optimizing a data warehouse, implementing a new ML model, or designing a data visualization dashboard, my goal is always to create solutions that empower organizations to make better, data-driven decisions.
+        </p>
+        <p>
+          When I'm not immersed in data, you can find me exploring new technologies, contributing to open-source projects, or sharing my knowledge through technical blog posts. I'm passionate about making data science and AI accessible to everyone, believing that the democratization of these technologies will lead to more innovative solutions and better business outcomes.
         </p>
       </div>
     </section>
 
     <!-- Skills Section -->
-    <section>
-      <h2 class="text-3xl font-bold mb-8 text-skin-accent border-b-2 border-skin-accent pb-2">Skills</h2>
+    <section class="modern-card p-8">
+      <h2 class="text-3xl font-bold mb-8 section-header ai-gradient">Skills</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {profileConfig.skills.map(skill => (
-          <div class="bg-skin-card p-6 rounded-lg shadow-md">
-            <h3 class="text-xl font-semibold mb-4">{skill.category}</h3>
+          <div class="bg-skin-card p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+            <h3 class="text-xl font-semibold mb-4 ai-gradient">{skill.category}</h3>
             <div class="flex flex-wrap gap-2">
               {skill.items.map(item => (
-                <span class="px-3 py-1 bg-skin-accent text-white rounded-full text-sm">
+                <span class="skill-tag">
                   {item}
                 </span>
               ))}
@@ -83,14 +98,14 @@ const pageTitle = `About | ${siteConfig.title}`
     </section>
 
     <!-- Experience Section -->
-    <section>
-      <h2 class="text-3xl font-bold mb-8 text-skin-accent border-b-2 border-skin-accent pb-2">Professional Experience</h2>
+    <section class="modern-card p-8">
+      <h2 class="text-3xl font-bold mb-8 section-header ai-gradient">Professional Experience</h2>
       <div class="space-y-12">
         {profileConfig.experience.map(job => (
           <div class="relative pl-8 border-l-2 border-skin-accent">
-            <div class="absolute w-4 h-4 bg-skin-accent rounded-full -left-[9px] top-1"></div>
+            <div class="absolute w-4 h-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full -left-[9px] top-1"></div>
             <div class="space-y-2">
-              <h3 class="text-2xl font-bold">{job.title}</h3>
+              <h3 class="text-2xl font-bold ai-gradient">{job.title}</h3>
               <div class="flex flex-wrap justify-between items-center">
                 <p class="text-xl font-medium">{job.company}</p>
                 <p class="text-sm bg-skin-card px-3 py-1 rounded-full">{job.period}</p>
@@ -108,14 +123,14 @@ const pageTitle = `About | ${siteConfig.title}`
     </section>
 
     <!-- Education Section -->
-    <section>
-      <h2 class="text-3xl font-bold mb-8 text-skin-accent border-b-2 border-skin-accent pb-2">Education</h2>
+    <section class="modern-card p-8">
+      <h2 class="text-3xl font-bold mb-8 section-header ai-gradient">Education</h2>
       <div class="space-y-8">
         {profileConfig.education.map(edu => (
           <div class="relative pl-8 border-l-2 border-skin-accent">
-            <div class="absolute w-4 h-4 bg-skin-accent rounded-full -left-[9px] top-1"></div>
+            <div class="absolute w-4 h-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full -left-[9px] top-1"></div>
             <div class="space-y-2">
-              <h3 class="text-xl font-bold">{edu.degree}</h3>
+              <h3 class="text-xl font-bold ai-gradient">{edu.degree}</h3>
               <p class="text-lg">{edu.school}</p>
               <p class="text-sm bg-skin-card px-3 py-1 rounded-full inline-block">{edu.period}</p>
               {edu.specialization && (
@@ -128,16 +143,16 @@ const pageTitle = `About | ${siteConfig.title}`
     </section>
 
     <!-- Certifications Section -->
-    <section>
-      <h2 class="text-3xl font-bold mb-8 text-skin-accent border-b-2 border-skin-accent pb-2">Certifications</h2>
+    <section class="modern-card p-8">
+      <h2 class="text-3xl font-bold mb-8 section-header ai-gradient">Certifications</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         {profileConfig.certifications?.map(cert => (
-          <div class="bg-skin-card p-6 rounded-lg shadow-md flex items-center gap-4">
-            <div class="bg-skin-accent rounded-full p-3 text-white">
+          <div class="bg-skin-card p-6 rounded-lg shadow-md flex items-center gap-4 hover:shadow-xl transition-all duration-300">
+            <div class="bg-gradient-to-r from-blue-500 to-purple-500 rounded-full p-3 text-white">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 256 256"><path fill="currentColor" d="M248 128a56 56 0 0 1-56 56a8 8 0 0 1-8-8a8 8 0 0 1 8-8a40 40 0 0 0 0-80a8 8 0 0 1-8-8a8 8 0 0 1 8-8a56 56 0 0 1 56 56ZM56 72a8 8 0 0 0-8 8a8 8 0 0 0 8 8a40 40 0 0 1 0 80a8 8 0 0 0-8 8a8 8 0 0 0 8 8a56 56 0 0 0 0-112Zm72 112a56.06 56.06 0 0 1-56-56a8 8 0 0 1 16 0a40 40 0 0 0 80 0a8 8 0 0 1 16 0a56.06 56.06 0 0 1-56 56Zm0-112a56.06 56.06 0 0 1 56 56a8 8 0 0 1-16 0a40 40 0 0 0-80 0a8 8 0 0 1-16 0a56.06 56.06 0 0 1 56-56Z"/></svg>
             </div>
             <div>
-              <h3 class="text-lg font-bold">{cert.name}</h3>
+              <h3 class="text-lg font-bold ai-gradient">{cert.name}</h3>
               <p class="text-sm">{cert.issuer} • {cert.date}</p>
             </div>
           </div>
@@ -146,14 +161,15 @@ const pageTitle = `About | ${siteConfig.title}`
     </section>
 
     <!-- Contact CTA -->
-    <section class="bg-skin-card p-10 rounded-xl shadow-lg text-center">
-      <h2 class="text-3xl font-bold mb-4">Let's Work Together</h2>
+    <section class="modern-card p-10 text-center relative overflow-hidden">
+      <div class="absolute inset-0 grid-background opacity-5"></div>
+      <h2 class="text-3xl font-bold mb-4 ai-gradient">Let's Work Together</h2>
       <p class="text-lg mb-6 max-w-2xl mx-auto">
         I'm always open to discussing new projects, opportunities, and collaborations. If you're interested in working together, feel free to reach out!
       </p>
       <a 
         href="/contact" 
-        class="inline-block bg-skin-accent hover:bg-opacity-90 text-white font-bold py-3 px-8 rounded-full transition-all transform hover:scale-105"
+        class="inline-block bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold py-3 px-8 rounded-full transition-all transform hover:scale-105 glow"
       >
         Get in Touch
       </a>
